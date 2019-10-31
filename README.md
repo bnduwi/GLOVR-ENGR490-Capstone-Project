@@ -2,7 +2,7 @@
 ## Setup instructions
 - Requirments to run the code:  
   - The setup explained here (https://www.youtube.com/watch?v=QHei7r6sMao). This is needed for the Vive to be recognized in Unity after it has been paired  
--- Unity version 2018.2.9f1
+  - Unity version 2018.2.9f1
 
 - Clone the repository and open the project in Unity
 - Run the code in Unity and in the Hierachy select the Cube object (Tracker)
