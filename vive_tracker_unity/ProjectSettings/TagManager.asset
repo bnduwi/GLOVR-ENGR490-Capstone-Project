@@ -3,7 +3,38 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Palm
+  - Knuckle1a
+  - Knuckle1b
+  - Knuckle1c
+  - Knuckle2a
+  - Knuckle2b
+  - Knuckle2c
+  - Knuckle3a
+  - Knuckle3b
+  - Knuckle3c
+  - Knuckle4a
+  - Knuckle4b
+  - Knuckle4c
+  - Knuckle5a
+  - Knuckle5b
+  - Knuckle5c
+  - Proximal1
+  - Proximal2
+  - Proximal3
+  - Proximal4
+  - Proximal5
+  - Middle1
+  - Middle2
+  - Middle3
+  - Middle4
+  - Middle5
+  - Tip1
+  - Tip2
+  - Tip3
+  - Tip4
+  - Tip5
   layers:
   - Default
   - TransparentFX
