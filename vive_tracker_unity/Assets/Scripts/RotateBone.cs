@@ -115,20 +115,24 @@ public class RotateBone : MonoBehaviour
             // Rotate around Y-axis
             if (Input.GetKey(KeyCode.RightArrow))
             {
-                Bend(bone, Vector3.up, 1f);
+                //Bend(bone, Vector3.up, 1f); // This is the old method that would rotate around World Space
+                Bend(bone, GameObject.Find(bone).transform.up, 1f);
             }
             if (Input.GetKey(KeyCode.LeftArrow))
             {
-                Bend(bone, Vector3.up, -1f);
+                //Bend(bone, Vector3.up, -1f); // This is the old method that would rotate around World Space
+                Bend(bone, GameObject.Find(bone).transform.up, -1f);
             }
             // Rotate around Z-axis
             if (Input.GetKey(KeyCode.KeypadPlus) | Input.GetKey(KeyCode.Plus) | Input.GetKey(KeyCode.Equals))
             {
-                Bend(bone, Vector3.forward, 1f);
+                //Bend(bone, Vector3.forward, 1f); // This is the old method that woud rotate around World Space
+                Bend(bone, GameObject.Find(bone).transform.forward, 1f);
             }
             if (Input.GetKey(KeyCode.KeypadMinus) | Input.GetKey(KeyCode.Minus))
             {
-                Bend(bone, Vector3.forward, -1f);
+                //Bend(bone, Vector3.forward, -1f); // This is the old method that woud rotate around World Space
+                Bend(bone, GameObject.Find(bone).transform.forward, -1f);
             }
         }
     }
