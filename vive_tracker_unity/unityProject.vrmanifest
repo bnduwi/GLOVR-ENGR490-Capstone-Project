@@ -5,7 +5,7 @@
       "app_key": "application.generated.unity.vive_tracker_unity.exe",
       "launch_type": "url",
       "url": "steam://launch/",
-      "action_manifest_path": "C:\\Users\\vr\\Documents\\PROGRAMMING\\GITHUB\\engr490_capstone_vivetracker\\vive_tracker_unity\\Assets\\StreamingAssets\\SteamVR\\actions.json",
+      "action_manifest_path": "C:\\repos\\Unity\\490\\engr490_capstone_vivetracker\\vive_tracker_unity\\Assets\\StreamingAssets\\SteamVR\\actions.json",
       "strings": {
         "en_us": {
           "name": "vive_tracker_unity [Testing]"
