@@ -1,9 +1,9 @@
-#[Ll]ibrary/
-#[Tt]emp/
-#[Oo]bj/
-#[Bb]uild/
-#[Bb]uilds/
-#Assets/AssetStoreTools*
+vive_tracker_unity/[Ll]ibrary/
+vive_tracker_unity/[Tt]emp/
+vive_tracker_unity/[Oo]bj/
+vive_tracker_unity/[Bb]uild/
+vive_tracker_unity/[Bb]uilds/
+vive_tracker_unity/Assets/AssetStoreTools*
 
 # Visual Studio cache directory
 .vs/
