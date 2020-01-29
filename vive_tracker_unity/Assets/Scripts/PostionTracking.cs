@@ -23,9 +23,10 @@ public class PostionTracking : MonoBehaviour
         String line = strTime + "," + test.x + "," + test.y + "," + test.z;
         Debug.Log(line);
         
-        using (StreamWriter w = File.AppendText("Assets/PositionData/position_data.csv"))
-        {
-            w.WriteLine(line);
-        }
+        // Commenting this part out to avoid data creation everytime Unity runs
+        //using (StreamWriter w = File.AppendText("Assets/PositionData/position_data.csv"))
+        //{
+        //    w.WriteLine(line);
+        //}
     }
 }
