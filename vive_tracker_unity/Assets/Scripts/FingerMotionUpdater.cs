@@ -55,62 +55,62 @@ public class FingerMotionUpdater : MonoBehaviour
             if (knuckleId == "a1")
             {
                 knuckleName = "Knuckle1a";
-                KnuckleRotatorR1(knuckleName, angle);
+                KnuckleRotatorXAxis(knuckleName, angle);
             }            
             else if (knuckleId == "b1")
             {
                 knuckleName = "Knuckle2a";
-                KnuckleRotatorR1(knuckleName, angle);
+                KnuckleRotatorXAxis(knuckleName, angle);
             }
             else if (knuckleId == "c1")
             {
                 knuckleName = "Knuckle3a";
-                KnuckleRotatorR1(knuckleName, angle);
+                KnuckleRotatorXAxis(knuckleName, angle);
             }
             else if (knuckleId == "d1")
             {
                 knuckleName = "Knuckle4a";
-                KnuckleRotatorR1(knuckleName, angle);
+                KnuckleRotatorXAxis(knuckleName, angle);
             }
             else if (knuckleId == "a2")
             {
                 knuckleName = "Knuckle1b";
-                KnuckleRotatorR1(knuckleName, angle);
+                KnuckleRotatorXAxis(knuckleName, angle);
             }
             else if (knuckleId == "b2")
             {
                 knuckleName = "Knuckle2b";
-                KnuckleRotatorR1(knuckleName, angle);
+                KnuckleRotatorXAxis(knuckleName, angle);
             }
             else if (knuckleId == "c2")
             {
                 knuckleName = "Knuckle3b";
-                KnuckleRotatorR1(knuckleName, angle);
+                KnuckleRotatorXAxis(knuckleName, angle);
             }
             else if (knuckleId == "d2")
             {
                 knuckleName = "Knuckle4b";
-                KnuckleRotatorR1(knuckleName, angle);
+                KnuckleRotatorXAxis(knuckleName, angle);
             }
 
         }
 
-        void KnuckleRotatorR1(string knuckName, float rotationAngle)
+        void KnuckleRotatorXAxis(string knuckName, float rotationAngle)
         {
             GameObject hand = GameObject.FindGameObjectWithTag(knuckleName);
-            hand.transform.rotation = Quaternion.Euler(rotationAngle, 0, 0);
+            hand.transform.rotation = Quaternion.Euler(rotationAngle,0,0);
         }
 
-        void KnuckleRotatorR2(string knuckName, float rotationAngle)
+        void KnuckleRotatorZAxis(string knuckName, float rotationAngle)
         {
             GameObject hand = GameObject.FindGameObjectWithTag(knuckleName);
-            hand.transform.rotation = Quaternion.Euler(0, 0, rotationAngle);
+            hand.transform.rotation = Quaternion.Euler(0,0,rotationAngle);
         }
 
-        void KnuckleRotatorR3(string knuckName, float rotationAngle)
+        void KnuckleRotatorYAxis(string knuckName, float rotationAngle)
         {
             GameObject hand = GameObject.FindGameObjectWithTag(knuckleName);
-            hand.transform.rotation = Quaternion.Euler(0, rotationAngle, 0);
+            hand.transform.rotation = Quaternion.Euler(0,rotationAngle,0);
         }
 
     }
