@@ -1,4 +1,5 @@
 #include <Encoder.h>
+#include "Motor_Control.h"
 
 // Change these pin numbers to the pins connected to your encoder.
 //   Best Performance: both pins have interrupt capability
@@ -7,12 +8,14 @@
 #define MOTOR_IN1 6
 #define MOTOR_IN2 7
 Encoder knobLeft(11, 12);
+motor motor1;
 //Encoder knobRight(7, 8);
 
 
 void setup() {
-  pinMode(MOTOR_IN1, OUTPUT);
-  pinMode(MOTOR_IN2, OUTPUT);
+
+  motor1.setup(6,7,6.5,50);
+
 //   avoid using pins with LEDs attached
   Serial.begin(9600);
   Serial.println("Encoder and Motor Test:");
@@ -25,10 +28,13 @@ long positionLeft  = -999;
 
 void loop() {
 
-  // ramp up forward
-digitalWrite(MOTOR_IN1, LOW);
 
-analogWrite(MOTOR_IN2, 255);
+motor1.setVoltage(-6.5);
+
+  // ramp up forward
+//digitalWrite(MOTOR_IN1, LOW);
+
+//analogWrite(MOTOR_IN2, 255);
 delay(10);
 
   long newLeft, newRight;
