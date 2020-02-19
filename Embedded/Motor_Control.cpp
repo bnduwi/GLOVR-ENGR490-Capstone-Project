@@ -2,11 +2,12 @@
 #include <arduino.h>
 #include <Encoder.h>
 #include <Adafruit_INA219.h>
+
 //#include <IntervalTimer.h>
 
 
 
-motor::motor(int motorIN1_Input, int motorIN2_Input, float motorInputVoltage_Input, int motorGearRatio_Input, int encoderPin1_Input, int encoderPin2_Input, double encoderPulsePerRotation_Input){
+motor::motor(int motorIN1_Input, int motorIN2_Input, float motorInputVoltage_Input, int motorGearRatio_Input, int encoderPin1_Input, int encoderPin2_Input, double encoderPulsePerRotation_Input, int currentSensorAddress_Input){
 
 	motorIN1 = motorIN1_Input;
 
@@ -28,7 +29,12 @@ motor::motor(int motorIN1_Input, int motorIN2_Input, float motorInputVoltage_Inp
 
 	motorEncoder = new Encoder(encoderPin1, encoderPin2);
 
-	//speedInterupt = new IntervalTimer;
+	currentSensor = new Adafruit_INA219(currentSensorAddress_Input);
+
+	motor::currentSensor->begin();
+
+	motor::currentSensor->setCalibration_16V_400mA(); // IF LARGER MOTORS ARE USED CHANGE THIS CALIBRATION
+
 
 }
 
@@ -42,10 +48,8 @@ void motor::setVoltage(float voltage){
 
 		analogWrite(motorIN2, abs(pulseWidth));
 
-		//motor::speedInterupt->begin(calculateSpeed, 100);
-
-
 	}
+
 	else{
 
 		int pulseWidth = (voltage/motorInputVoltage)*255;
@@ -58,9 +62,10 @@ void motor::setVoltage(float voltage){
 
 }
 
+
 double motor::readEncoder(){
 
-	return ((motor::motorEncoder->read()/encoderPulsePerRotation)/50.0)*360.0;
+	return ((motor::motorEncoder->read()/encoderPulsePerRotation)/50.0)*360.0; 
 
 }
 
@@ -69,12 +74,14 @@ void motor::setEncoder(int encoderSetValue){
 
 	motor::motorEncoder->write(encoderSetValue);
 
-
 }
+
 
 double motor::speed(){ ///THIS FUNCTION HAS A DELAY THAT MAY CAUSE ISSUES, LOOK INTO INTERUPTS AS ALTERNATIVE
 
 	int delayValue = 100;
+
+	int time1 = millis();
 
 	double currentPosition = motor::readEncoder();
 
@@ -82,7 +89,29 @@ double motor::speed(){ ///THIS FUNCTION HAS A DELAY THAT MAY CAUSE ISSUES, LOOK 
 
 	double secondPosition = motor::readEncoder();
 
-	double speed = ((secondPosition-currentPosition)/360)/(delayValue*0.00001);
+	int time2 = millis();
+
+	double speed = ((secondPosition-currentPosition)/((time2-time1)*0.01))*1.62; //The 1.6 scalar value at the end... I dont understand why I need it but 
+																				//without it the value of rpm is wrong
 	
 	return speed;
 }
+
+double motor::readCurrent(){ 
+
+	int iterations = 40;
+
+	double currentReadings;
+
+	for (int i = 0; i < iterations; i++){
+
+		currentReadings += motor::currentSensor->getCurrent_mA();
+
+	}
+
+	return currentReadings/iterations;
+
+
+}
+
+
