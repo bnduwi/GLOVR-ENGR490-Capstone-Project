@@ -6,28 +6,35 @@ class motor {
 
 private:
 
-int motorIN1, motorIN2, motorGearRatio, encoderPin1, encoderPin2;
+	int motorIN1, motorIN2, motorGearRatio, encoderPin1, encoderPin2;
 
-double encoderPulsePerRotation;
+	double encoderPulsePerRotation;
 
-float motorInputVoltage;
+	float motorInputVoltage;
 
-Encoder *motorEncoder;
+	Encoder *motorEncoder;
 
-Adafruit_INA219 *currentSensor;
+	Adafruit_INA219 *currentSensor;
 
 public:
 
-motor(int motorIN1_Input, int motorIN2_Input, float motorInputVoltage_Input, int motorGearRatio_Input, int encoderPin1_Input, int encoderPin2_Input, double encoderPulsePerRotation_Input, int currentSensorAddress_Input);
+	motor(int motorIN1_Input, int motorIN2_Input, float motorInputVoltage_Input, int motorGearRatio_Input, 
+		  int encoderPin1_Input, int encoderPin2_Input, double encoderPulsePerRotation_Input, int currentSensorAddress_Input);
 
-void setVoltage(float voltage);
+	void setVoltage(float voltage); 
 
-double readEncoder();
+	//Void incrementPosition(int degrees) //This will require charecterising the motor
 
-void setEncoder(int encoderSetValue);
+	//Void setTorque(int torque) // This will also require charecterisation
 
-double speed(); //THIS FUNCTION HAS A DELAY OF 10ms IF THERE ARE ISSUES THIS MAY BE THE REASON
+	double readEncoder();
 
-double readCurrent();
+	void setEncoder(int encoderSetValue);
+
+	double speed(); //THIS FUNCTION HAS A DELAY OF 10ms IF THERE ARE ISSUES THIS MAY BE THE REASON
+
+	double readCurrent();
+
+
 
 };

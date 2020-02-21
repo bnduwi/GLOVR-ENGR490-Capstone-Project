@@ -65,7 +65,7 @@ void motor::setVoltage(float voltage){
 
 double motor::readEncoder(){
 
-	return ((motor::motorEncoder->read()/encoderPulsePerRotation)/50.0)*360.0; 
+	return ((motor::motorEncoder->read()/encoderPulsePerRotation)/motorGearRatio)*360.0; //look into data types for encoder 
 
 }
 
@@ -101,7 +101,7 @@ double motor::readCurrent(){
 
 	int iterations = 40;
 
-	double currentReadings;
+	double currentReadings = 0;
 
 	for (int i = 0; i < iterations; i++){
 
