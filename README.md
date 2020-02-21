@@ -27,14 +27,14 @@ This component will be developed using [unity](https://unity.com/), which allows
 ## Getting stared
 ### Requirements
   - Unity version 2018.4.12f1 
-  > Note! This version is the one required to run to project. Other versions will overwrite everything reset the project
+  > Note! This version is the one required to run to project. Other versions will overwrite everything and reset the project.
   
   - User equipment:
     - The Haptic Glove
     - [SteamVR](https://store.steampowered.com/)
-    - [HTC Vive Pro](https://www.vive.com/us/product/vive-pro/) Headset (*This project was tested with Vive Pro, but any headset that works with SteamVR*)
+    - [HTC Vive Pro](https://www.vive.com/us/product/vive-pro/) Headset (*This project was tested with Vive Pro, but any headset that works with SteamVR should work as well*)
     - [HTC Vive Tracker](https://www.vive.com/us/vive-tracker/)
-    - The setup needed to get SteamVR and the HTC products to work is expained [here](https://www.youtube.com/watch?v=QHei7r6sMao). This is needed for the Vive to be recognized in Unity after it has been paired.
+    - The setup needed to get SteamVR and the HTC Vive products to work is expained [here](https://www.youtube.com/watch?v=QHei7r6sMao). This is needed for the these products to be recognized in Unity after they have been paired.
 ### Running the code
 - Go through the HTC Vive setup
 - Open SteamVR and make sure both the Headset, Vive Tracker, and base stations are being tracked. The status screen should show this:
@@ -42,7 +42,7 @@ This component will be developed using [unity](https://unity.com/), which allows
   <img  src="https://raw.githubusercontent.com/bnduwi/ENGR490-Capstone-Project/project-clean-up/Software%20Team/Images/SteamStatusTracker_final.jpg?token=AHVOJ3L2EMRWDF7AHCGQPQ26LFXOS" alt="SteamVR Status Window">
 </p>
 
-- Make sure the glove is connected (USB) to the computer Unity running on using.
+- Make sure the glove is connected (USB) to the computer Unity is running on using.
 - Clone the repository and open the project in Unity 
-> Note! The version specified is needed, otherwise opeining the project in a different one will cause issues.
+> Note! The version specified is needed, otherwise opening the project in a different one will cause issues.
 - Run the Unity project to begin using the simulation. 
