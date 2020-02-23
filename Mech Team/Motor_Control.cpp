@@ -23,6 +23,8 @@ motor::motor(int motorIN1_Input, int motorIN2_Input, float motorInputVoltage_Inp
 
 	encoderPulsePerRotation = encoderPulsePerRotation_Input;
 
+	positionIncrementFlag = 0;
+
 	pinMode(motorIN1, OUTPUT);
 
 	pinMode(motorIN2, OUTPUT);
@@ -38,7 +40,7 @@ motor::motor(int motorIN1_Input, int motorIN2_Input, float motorInputVoltage_Inp
 
 }
 
-void motor::setVoltage(double voltage){
+void motor::setVoltage(double voltage){ ///35 is the cutoff pwm value
 
 	if (voltage > 0){
 
@@ -68,11 +70,11 @@ void motor::setVoltage(double voltage){
 
 	}
 
-	else{
+	else if (voltage == 0){
 
-		digitalWrite(motorIN2, LOW);
+		analogWrite(motorIN2, LOW);
 
-		digitalWrite(motorIN1, LOW);
+		analogWrite(motorIN1, LOW);
 
 	}
 
@@ -130,4 +132,78 @@ double motor::readCurrent(){
 
 }
 
+void motor::brake(){
+
+	analogWrite(motorIN2, HIGH);
+
+	analogWrite(motorIN1, HIGH);
+
+
+}
+
+
+int motor::incrementPosition(double degrees){
+
+	if (positionIncrementFlag == 0){
+
+		motor::setEncoder(0);
+
+		positionIncrementFlag = 1;		
+
+	}
+
+
+
+
+
+	if (degrees > 0.0){
+
+		if(motor::readEncoder() >= (0.4*degrees)){
+
+			motor::brake();
+
+			reachedPositionFlag = 1;
+
+			positionIncrementFlag = 0;
+
+		}
+
+		else{
+
+			motor::setVoltage(motorInputVoltage);
+
+
+		}
+
+	}
+
+
+
+
+
+
+
+	if(degrees < 0){
+
+		if(motor::readEncoder() <= degrees){
+
+			motor::brake();
+
+			reachedPositionFlag = 1;
+
+			positionIncrementFlag = 0;
+
+		}
+
+		else{
+
+			motor::setVoltage(-motorInputVoltage);
+
+
+		}
+
+	}
+
+
+}
 

@@ -36,7 +36,7 @@ void LRA::playWaveform(int effect){
 
 	LRA::lraDriver->begin();
 
-	LRA::lraDriver->selectLibrary(1);
+	LRA::lraDriver->selectLibrary(6);
 
 	LRA::lraDriver->setMode(DRV2605_MODE_INTTRIG);
 

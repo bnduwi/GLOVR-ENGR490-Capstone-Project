@@ -1,6 +1,6 @@
-#include <Encoder.h>
+//#include <Encoder.h>
 #include "Motor_Control.h"
-#include <wire.h>
+//#include <wire.h>
 #include "LRA_Control.h"
 #include "Hand.h"
 
@@ -18,7 +18,7 @@ hand hand (potPinss);
 
 //Encoder knobRight(7, 8);
 
- //double motorCurrentAverage;
+ double motorCurrentAverage;
 
 
 void setup() {
@@ -33,75 +33,94 @@ void loop() {
 
   double motorPosition; //////this sequence isnt working, it will play the first and then not work
 
-  // motor1.setVoltage(6.5);
+  // motor1.setVoltage(3.5);
 
-  // delay(1000);
-
-  // motor1.setVoltage(0);
-
-  // delay(1000);
+  // delay(2000);
 
   // motor1.setVoltage(6.5);
 
-  // //motor1.setVoltage(-6.5);
+  // delay(2000);
+
+  //motor1.brake();
+
+
+
+ 
 
 
   
 
-  motorPosition = motor1.readEncoder();
+   motorPosition = motor1.readEncoder();
 
 
   // int timeToRead = micros();
-  double motorCurrentAverage = motor1.readCurrent();
+double motorCurrentAverage = motor1.readCurrent();
   // int timeToRead2 = micros();
 
 
+if (motor1.reachedPositionFlag == 1){
 
-  // Serial.print("\nMotorPosition = ");
-  // Serial.print(motorPosition);
+
+}
   
-  Serial.print("\nMotorSpeed = ");
-  Serial.print(motor1.speed());
+else{
 
-  Serial.print("\nMotorCurrentAverage = ");
-  Serial.print(motorCurrentAverage);
+  motor1.incrementPosition(360.0);
 
 
-  Serial.print("\nthe last Pin is = ");
-  Serial.print(hand.fingers[4].potPin[3]);
-
-  Serial.print("\nand its position is = ");
-  Serial.print(hand.fingers[4].potCurrent[1]);
+}
 
 
-  int timeToUpdate = millis();
-  hand.update();
-  delay(10);
-  int timeToUpdate2 = millis();
 
-  Serial.print("\ntime to update all pots is = ");
-  Serial.print(timeToUpdate2-timeToUpdate);
+
+  Serial.print("\nMotorPosition = ");
+  Serial.print(motorPosition);
+  
+  // Serial.print("\nMotorSpeed = ");
+  // Serial.print(motor1.speed());
+
+  Serial.print("\npositionIncrementFlag = ");
+  Serial.print(motor1.positionIncrementFlag);
+
+    Serial.print("\nreachedPositionFlag = ");
+  Serial.print(motor1.reachedPositionFlag);
+
+
+  // Serial.print("\nthe last Pin is = ");
+  // Serial.print(hand.fingers[4].potPin[3]);
+
+  // Serial.print("\nand its position is = ");
+  // Serial.print(hand.fingers[4].potCurrent[1]);
+
+
+  // int timeToUpdate = millis();
+  // hand.update();
+  // delay(10);
+  // int timeToUpdate2 = millis();
+
+  // Serial.print("\ntime to update all pots is = ");
+  // Serial.print(timeToUpdate2-timeToUpdate);
 
 
 
   // Serial.print("\ntime to read = ");
   // Serial.print(timeToRead2-timeToRead);
 
-	// LRA0.playWaveform(20);
+	// LRA0.playWaveform(52);
 
-	// LRA1.playWaveform(20);
+	// LRA1.playWaveform(52);
 
-	// LRA2.playWaveform(20);
+	// LRA2.playWaveform(52);
 
-	// LRA3.playWaveform(20);
+	// LRA3.playWaveform(52);
 
-	// LRA4.playWaveform(20);
+	// LRA4.playWaveform(52);
 
-	// LRA5.playWaveform(20);
+	// LRA5.playWaveform(52);
 
-	// LRA6.playWaveform(20);
+	// LRA6.playWaveform(52);
 
-	//delay(1000);
+	//delay(2000);
 
 	//LRA7.playWaveform(20);
 

@@ -18,12 +18,16 @@ private:
 
 public:
 
+	int reachedPositionFlag = 0, positionIncrementFlag;
+
 	motor(int motorIN1_Input, int motorIN2_Input, float motorInputVoltage_Input, int motorGearRatio_Input, 
 		  int encoderPin1_Input, int encoderPin2_Input, double encoderPulsePerRotation_Input, int currentSensorAddress_Input);
 
 	void setVoltage(double voltage); 
 
-	//Void incrementPosition(int degrees) //This will require charecterising the motor
+	void brake();
+
+	int incrementPosition(double degrees); //This will require charecterising the motor
 
 	//Void setTorque(int torque) // This will also require charecterisation
 
