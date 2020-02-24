@@ -19,10 +19,13 @@ private:
 public:
 
   double lastPosition = 0;
-  double nowEncoder = 0;
+  
   double nowPosition = 0;
+  
   double time1 = 0;
+  
   double time2 = 0;
+  
   int reachedPositionFlag = 0, positionIncrementFlag;
 
   motor(int motorIN1_Input, int motorIN2_Input, float motorInputVoltage_Input, int motorGearRatio_Input, 
@@ -40,11 +43,11 @@ public:
 
   void setEncoder(int encoderSetValue);
 
-  double speed(); //THIS FUNCTION HAS A DELAY OF 10ms IF THERE ARE ISSUES THIS MAY BE THE REASON
+  double speed();
 
   double readCurrent();
 
-//  double readLoadVoltage();
+//  double readLoadVoltage(); //Still things to debug here
 
   double readPower();
 

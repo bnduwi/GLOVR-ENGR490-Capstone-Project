@@ -100,40 +100,48 @@ double motor::speed(){ ///THIS FUNCTION HAS A DELAY THAT MAY CAUSE ISSUES, LOOK 
 
 	
 
-  Serial.print("\nPrevious Position = ");
+  // Serial.print("\nPrevious Position = ,");
+  Serial.print(" ,");
   Serial.print(lastPosition);
 
   nowPosition = motor::readEncoder()*ShaftRev;
   
-  Serial.print("\nCurrent Position = ");
+  // Serial.print("\nCurrent Position = ,");
+  Serial.print(" ,");
   Serial.print(nowPosition);
   
-  Serial.print("\nPrevious Time = ");
+  // Serial.print("\nPrevious Time = ,");
+  Serial.print(" ,");
   Serial.print(time1);
   
 	time2 = millis();
  
-  Serial.print("\nCurrent Time = ");
+  // Serial.print("\nCurrent Time = ,");
+  Serial.print(" ,");
   Serial.print(time2);
   
 	// double speed = ((secondPosition-currentPosition)/((time2-time1)*0.01))*1.62; //The 1.6 scalar value at the end... I dont understand why I need it but 
 																				//without it the value of rpm is wrong
 	double speed = ((nowPosition - lastPosition) / ((time2 - time1)*0.001));
   
-  Serial.print("\nTime Step (ms) = ");
+  // Serial.print("\nTime Step (ms) = ,");
+  Serial.print(" ,");
   Serial.print(time2 - time1);
   
-  Serial.print("\nPosition Difference (rev) = ");
+  // Serial.print("\nPosition Difference (rev) = ,");
+  Serial.print(" ,");
   Serial.print(nowPosition - lastPosition);
   
   lastPosition = nowPosition;
 
   time1 = time2;
   
-  Serial.print("\nSpeed (RPM) = ");
+  // Serial.print("\nSpeed (RPM) = ,");
+  Serial.print(" ,");
   Serial.print(60*speed);
   
-  Serial.print("\nProportional Encoder Steps per Shaft Rev = ");
+  // Serial.print("\nProportional Encoder Steps per Shaft Rev = ,");
+  Serial.print(" ,");
   Serial.print(encoderPulsePerRotation*motorGearRatio);
 
 	return speed;
@@ -141,7 +149,7 @@ double motor::speed(){ ///THIS FUNCTION HAS A DELAY THAT MAY CAUSE ISSUES, LOOK 
 
 double motor::readCurrent(){ 
 
-	int iterations = 40;
+	int iterations = 1000;
 
 	double currentReadings = 0;
 
@@ -175,7 +183,7 @@ double motor::readCurrent(){
 
 double motor::readPower(){
 
-	int iterations = 40;
+	int iterations = 150;
 
 	double powerReadings = 0;
 

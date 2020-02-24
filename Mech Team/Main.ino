@@ -10,46 +10,52 @@
 //   Low Performance:  neither pin has interrupt capability
 #define MOTOR_IN1 6
 #define MOTOR_IN2 7
-//Encoder knobLeft(11, 12);
+
 motor motor1(6,7,6.5,50,11,12,28.0,0x40);
 
 LRA LRA0(0), LRA1(1), LRA2(2), LRA3(3), LRA4(4), LRA5(5), LRA6(6), LRA7(7);
 int potPinss[16] = {A9,A8,A7,A6,A3,A2,A1,A0,A22,A21,A20,A19,A18,A17,A16,A15}; //
 hand hand (potPinss);
 
-//Encoder knobRight(7, 8);
-
  double motorCurrentAverage;
+ 
  double rad = PI/180;
+ 
  double angle = 0;
+ 
 double initialposition = 0;
+
 double initialtime = 0;
+
 void setup() {
 
   Serial.begin(9600);
-  Serial.println("Encoder and Motor Test:");
+  Serial.print("Encoder and Motor Test:");
 
 }
 
 
 void loop() {
 
-  Serial.print("\n\nLoop Time");
+  //Serial.print("\n\nLoop Time = ,");
+  Serial.print("\n");
   Serial.print(millis());
 
-  Serial.print("\nTheta Value in degrees (for sinewave voltage input) = ");
+  //Serial.print("\nTheta Value in degrees (for sinewave voltage input) = ,");
+  Serial.print(" ,");
   Serial.print(angle);
 
-  //double V = (6.5*sin(rad*angle));
-  double V = (6.5);
-  angle = angle+10;
+  double V = (6.5*sin(rad*angle));
+  //double V = (6.5);
+  angle = angle+5;
   
   double motorPosition; //////this sequence isnt working, it will play the first and then not work
 
-  Serial.print("\nVoltage Sent (V) = ");
+  //Serial.print("\nVoltage Sent (V) = ,");
+  Serial.print(" ,");
   Serial.print(V);
 
-  motor1.setVoltage(V);
+  motor1.setVoltage(3.5);
 
   // delay(2000);
 
@@ -93,16 +99,19 @@ double motorPowerAverage = motor1.readPower();
 
 
 
-  Serial.print("\nMotor Current = ");
+  // Serial.print("\nMotor Current = ,");
+  Serial.print(" ,");
   Serial.print(motorCurrentAverage);
 
 //  Serial.print("\nMotorLoad = ");
 //  Serial.print(motorVoltageAverage);
 
-  Serial.print("\nMotor Power = ");
+  // Serial.print("\nMotor Power = ,");
+  Serial.print(" ,");
   Serial.print(motorPowerAverage);
 
-  Serial.print("\nCurrent Encoder Count = ");
+  // Serial.print("\nCurrent Encoder Count = ,");
+  Serial.print(" ,");
   Serial.print(motorPosition);
   
 
