@@ -1,6 +1,6 @@
 //#include <Encoder.h>
 #include "Motor_Control.h"
-//#include <wire.h>
+#include <Wire.h>
 #include "LRA_Control.h"
 #include "Hand.h"
 
@@ -12,6 +12,7 @@
 #define MOTOR_IN2 7
 //Encoder knobLeft(11, 12);
 motor motor1(6,7,6.5,50,11,12,28.0,0x40);
+
 LRA LRA0(0), LRA1(1), LRA2(2), LRA3(3), LRA4(4), LRA5(5), LRA6(6), LRA7(7);
 int potPinss[16] = {A9,A8,A7,A6,A3,A2,A1,A0,A22,A21,A20,A19,A18,A17,A16,A15}; //
 hand hand (potPinss);
@@ -19,8 +20,10 @@ hand hand (potPinss);
 //Encoder knobRight(7, 8);
 
  double motorCurrentAverage;
-
-
+ double rad = PI/180;
+ double angle = 0;
+double initialposition = 0;
+double initialtime = 0;
 void setup() {
 
   Serial.begin(9600);
@@ -31,9 +34,22 @@ void setup() {
 
 void loop() {
 
+  Serial.print("\n\nLoop Time");
+  Serial.print(millis());
+
+  Serial.print("\nTheta Value in degrees (for sinewave voltage input) = ");
+  Serial.print(angle);
+
+  //double V = (6.5*sin(rad*angle));
+  double V = (6.5);
+  angle = angle+10;
+  
   double motorPosition; //////this sequence isnt working, it will play the first and then not work
 
-  // motor1.setVoltage(3.5);
+  Serial.print("\nVoltage Sent (V) = ");
+  Serial.print(V);
+
+  motor1.setVoltage(V);
 
   // delay(2000);
 
@@ -55,35 +71,48 @@ void loop() {
 
   // int timeToRead = micros();
 double motorCurrentAverage = motor1.readCurrent();
+
+//double motorVoltageAverage = motor1.readLoadVoltage();
+
+double motorPowerAverage = motor1.readPower();
   // int timeToRead2 = micros();
 
 
-if (motor1.reachedPositionFlag == 1){
+//if (motor1.reachedPositionFlag == 1){
+//
+//
+//}
+//  
+//else{
+//
+//  motor1.incrementPosition(360.0);
+//
+//
+//}
 
 
-}
-  
-else{
-
-  motor1.incrementPosition(360.0);
 
 
-}
+  Serial.print("\nMotor Current = ");
+  Serial.print(motorCurrentAverage);
 
+//  Serial.print("\nMotorLoad = ");
+//  Serial.print(motorVoltageAverage);
 
+  Serial.print("\nMotor Power = ");
+  Serial.print(motorPowerAverage);
 
-
-  Serial.print("\nMotorPosition = ");
+  Serial.print("\nCurrent Encoder Count = ");
   Serial.print(motorPosition);
   
-  // Serial.print("\nMotorSpeed = ");
-  // Serial.print(motor1.speed());
 
-  Serial.print("\npositionIncrementFlag = ");
-  Serial.print(motor1.positionIncrementFlag);
+   motor1.speed();
 
-    Serial.print("\nreachedPositionFlag = ");
-  Serial.print(motor1.reachedPositionFlag);
+//  Serial.print("\npositionIncrementFlag = ");
+//  Serial.print(motor1.positionIncrementFlag);
+//
+//  Serial.print("\nreachedPositionFlag = ");
+//  Serial.print(motor1.reachedPositionFlag);
 
 
   // Serial.print("\nthe last Pin is = ");

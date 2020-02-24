@@ -6,38 +6,49 @@ class motor {
 
 private:
 
-	int motorIN1, motorIN2, motorGearRatio, encoderPin1, encoderPin2;
+  int motorIN1, motorIN2, motorGearRatio, encoderPin1, encoderPin2;
 
-	double encoderPulsePerRotation;
+  double encoderPulsePerRotation;
 
-	float motorInputVoltage;
+  float motorInputVoltage;
 
-	Encoder *motorEncoder;
+  Encoder *motorEncoder;
 
-	Adafruit_INA219 *currentSensor;
+  Adafruit_INA219 *currentSensor;
 
 public:
 
-	int reachedPositionFlag = 0, positionIncrementFlag;
+  double lastPosition = 0;
+  double nowEncoder = 0;
+  double nowPosition = 0;
+  double time1 = 0;
+  double time2 = 0;
+  int reachedPositionFlag = 0, positionIncrementFlag;
 
-	motor(int motorIN1_Input, int motorIN2_Input, float motorInputVoltage_Input, int motorGearRatio_Input, 
-		  int encoderPin1_Input, int encoderPin2_Input, double encoderPulsePerRotation_Input, int currentSensorAddress_Input);
+  motor(int motorIN1_Input, int motorIN2_Input, float motorInputVoltage_Input, int motorGearRatio_Input, 
+      int encoderPin1_Input, int encoderPin2_Input, double encoderPulsePerRotation_Input, int currentSensorAddress_Input);
 
-	void setVoltage(double voltage); 
+  void setVoltage(double voltage); 
 
-	void brake();
+  void brake();
 
-	int incrementPosition(double degrees); //This will require charecterising the motor
+  int incrementPosition(double degrees); //This will require charecterising the motor
 
-	//Void setTorque(int torque) // This will also require charecterisation
+  //Void setTorque(int torque) // This will also require charecterisation
 
-	double readEncoder();
+  double readEncoder();
 
-	void setEncoder(int encoderSetValue);
+  void setEncoder(int encoderSetValue);
 
-	double speed(); //THIS FUNCTION HAS A DELAY OF 10ms IF THERE ARE ISSUES THIS MAY BE THE REASON
+  double speed(); //THIS FUNCTION HAS A DELAY OF 10ms IF THERE ARE ISSUES THIS MAY BE THE REASON
 
-	double readCurrent();
+  double readCurrent();
+
+//  double readLoadVoltage();
+
+  double readPower();
+
+double ShaftRev;
 
 
 
