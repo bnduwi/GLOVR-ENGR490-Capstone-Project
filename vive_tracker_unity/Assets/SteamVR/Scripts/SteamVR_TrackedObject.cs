@@ -107,6 +107,10 @@ namespace Valve.VR
         {
             if (System.Enum.IsDefined(typeof(EIndex), index))
                 this.index = (EIndex)index;
+
+            // Conor Adding this
+            Debug.Log("HELLOO" + index);
+
         }
     }
 }

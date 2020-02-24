@@ -35,6 +35,7 @@ TagManager:
   - Tip3
   - Tip4
   - Tip5
+  - Hand
   layers:
   - Default
   - TransparentFX
