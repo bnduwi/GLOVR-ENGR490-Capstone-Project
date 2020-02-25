@@ -7,7 +7,8 @@
 
 
 
-motor::motor(int motorIN1_Input, int motorIN2_Input, float motorInputVoltage_Input, int motorGearRatio_Input, int encoderPin1_Input, int encoderPin2_Input, double encoderPulsePerRotation_Input, int currentSensorAddress_Input){
+motor::motor(int motorIN1_Input, int motorIN2_Input, float motorInputVoltage_Input, int motorGearRatio_Input, 
+			 int encoderPin1_Input, int encoderPin2_Input, double encoderPulsePerRotation_Input, int currentSensorAddress_Input){
 
 	motorIN1 = motorIN1_Input;
 
@@ -37,7 +38,7 @@ motor::motor(int motorIN1_Input, int motorIN2_Input, float motorInputVoltage_Inp
 
 	motor::currentSensor->setCalibration_16V_400mA(); // IF LARGER MOTORS ARE USED CHANGE THIS CALIBRATION
 
-  ShaftRev = 1.0/ (encoderPulsePerRotation*motorGearRatio);
+  	shaftRev = 1.0/ (encoderPulsePerRotation*motorGearRatio);
 
 }
 
@@ -84,7 +85,7 @@ void motor::setVoltage(double voltage){ ///35 is the cutoff pwm value
 
 double motor::readEncoder(){
 
-	return (motor::motorEncoder->read()); //look into data types for encoder 
+	return (motor::motorEncoder->read())*shaftRev; //look into data types for encoder 
 
 }
 
@@ -98,51 +99,51 @@ void motor::setEncoder(int encoderSetValue){
 
 double motor::speed(){ ///THIS FUNCTION HAS A DELAY THAT MAY CAUSE ISSUES, LOOK INTO INTERUPTS AS ALTERNATIVE
 
-	
 
-  // Serial.print("\nPrevious Position = ,");
-  Serial.print(" ,");
-  Serial.print(lastPosition);
+		////////////TESTING PRINTS//////////
 
-  nowPosition = motor::readEncoder()*ShaftRev;
-  
-  // Serial.print("\nCurrent Position = ,");
-  Serial.print(" ,");
-  Serial.print(nowPosition);
-  
-  // Serial.print("\nPrevious Time = ,");
-  Serial.print(" ,");
-  Serial.print(time1);
-  
+		//Serial.print("\nPrevious Position = ,");
+		Serial.print(" ,");
+		Serial.print(lastPosition);
+
+	nowPosition = motor::readEncoder();
+	  
+		//Serial.print("\nCurrent Position = ,");
+		Serial.print(" ,");
+		Serial.print(nowPosition);
+		  
+		//Serial.print("\nPrevious Time = ,");
+		Serial.print(" ,");
+		Serial.print(time1);
+	  
 	time2 = millis();
- 
-  // Serial.print("\nCurrent Time = ,");
-  Serial.print(" ,");
-  Serial.print(time2);
-  
-	// double speed = ((secondPosition-currentPosition)/((time2-time1)*0.01))*1.62; //The 1.6 scalar value at the end... I dont understand why I need it but 
-																				//without it the value of rpm is wrong
+	 
+		//Serial.print("\nCurrent Time = ,");
+		Serial.print(" ,");
+		Serial.print(time2);
+	  
+	//double speed = ((secondPosition-currentPosition)/((time2-time1)*0.01))*1.62; 
 	double speed = ((nowPosition - lastPosition) / ((time2 - time1)*0.001));
-  
-  // Serial.print("\nTime Step (ms) = ,");
-  Serial.print(" ,");
-  Serial.print(time2 - time1);
-  
-  // Serial.print("\nPosition Difference (rev) = ,");
-  Serial.print(" ,");
-  Serial.print(nowPosition - lastPosition);
-  
-  lastPosition = nowPosition;
+	  
+		//Serial.print("\nTime Step (ms) = ,");
+		Serial.print(" ,");
+		Serial.print(time2 - time1);
+		  
+		//Serial.print("\nPosition Difference (rev) = ,");
+		Serial.print(" ,");
+		Serial.print(nowPosition - lastPosition);
+	  
+	lastPosition = nowPosition;
 
-  time1 = time2;
-  
-  // Serial.print("\nSpeed (RPM) = ,");
-  Serial.print(" ,");
-  Serial.print(60*speed);
-  
-  // Serial.print("\nProportional Encoder Steps per Shaft Rev = ,");
-  Serial.print(" ,");
-  Serial.print(encoderPulsePerRotation*motorGearRatio);
+	time1 = time2;
+	  
+		//Serial.print("\nSpeed (RPM) = ,");
+		Serial.print(" ,");
+		Serial.print(60*speed);
+		  
+		//Serial.print("\nProportional Encoder Steps per Shaft Rev = ,");
+		Serial.print(" ,");
+		Serial.print(encoderPulsePerRotation*motorGearRatio);
 
 	return speed;
 }
@@ -164,39 +165,6 @@ double motor::readCurrent(){
 
 }
 
-//double motor::readLoadVoltage(){
-//
-//	int iterations = 40;
-//
-//	double loadvoltageReadings = 0;
-//
-//	for (int i = 0; i < iterations; i++){
-//
-//		loadvoltageReadings += motor::currentSensor->getloadvoltage();
-//
-//	}
-//
-//	return loadvoltageReadings / iterations;
-//
-//
-//}
-
-double motor::readPower(){
-
-	int iterations = 150;
-
-	double powerReadings = 0;
-
-	for (int i = 0; i < iterations; i++){
-
-		powerReadings += motor::currentSensor->getPower_mW();
-
-	}
-
-	return powerReadings / iterations;
-
-
-}
 
 void motor::brake(){
 

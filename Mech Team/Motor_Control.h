@@ -8,7 +8,7 @@ private:
 
   int motorIN1, motorIN2, motorGearRatio, encoderPin1, encoderPin2;
 
-  double encoderPulsePerRotation;
+  double encoderPulsePerRotation, shaftRev;
 
   float motorInputVoltage;
 
@@ -29,7 +29,7 @@ public:
   int reachedPositionFlag = 0, positionIncrementFlag;
 
   motor(int motorIN1_Input, int motorIN2_Input, float motorInputVoltage_Input, int motorGearRatio_Input, 
-      int encoderPin1_Input, int encoderPin2_Input, double encoderPulsePerRotation_Input, int currentSensorAddress_Input);
+        int encoderPin1_Input, int encoderPin2_Input, double encoderPulsePerRotation_Input, int currentSensorAddress_Input);
 
   void setVoltage(double voltage); 
 
@@ -46,13 +46,5 @@ public:
   double speed();
 
   double readCurrent();
-
-//  double readLoadVoltage(); //Still things to debug here
-
-  double readPower();
-
-double ShaftRev;
-
-
 
 };

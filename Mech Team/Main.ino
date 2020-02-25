@@ -3,12 +3,13 @@
 #include <Wire.h>
 #include "LRA_Control.h"
 #include "Hand.h"
+#include "interrupts.h"
 
 // Change these pin numbers to the pins connected to your encoder.
 //   Best Performance: both pins have interrupt capability
 //   Good Performance: only the first pin has interrupt capability
 //   Low Performance:  neither pin has interrupt capability
-#define MOTOR_IN1 6
+#define MOTOR_IN1 6 
 #define MOTOR_IN2 7
 
 motor motor1(6,7,6.5,50,11,12,28.0,0x40);
@@ -32,38 +33,40 @@ void setup() {
   Serial.begin(9600);
   Serial.print("Encoder and Motor Test:");
 
+  startInterrupts();
+
 }
 
 
 void loop() {
 
-  //Serial.print("\n\nLoop Time = ,");
-  Serial.print("\n");
-  Serial.print(millis());
+//   //Serial.print("\n\nLoop Time = ,");
+//   Serial.print("\n");
+//   Serial.print(millis());
 
-  //Serial.print("\nTheta Value in degrees (for sinewave voltage input) = ,");
-  Serial.print(" ,");
-  Serial.print(angle);
+//   //Serial.print("\nTheta Value in degrees (for sinewave voltage input) = ,");
+//   Serial.print(" ,");
+//   Serial.print(angle);
 
-  double V = (6.5*sin(rad*angle));
-  //double V = (6.5);
-  angle = angle+5;
+//   double V = (6.5*sin(rad*angle));
+//   //double V = (6.5);
+//   angle = angle+5;
   
-  double motorPosition; //////this sequence isnt working, it will play the first and then not work
+//   double motorPosition; //////this sequence isnt working, it will play the first and then not work
 
-  //Serial.print("\nVoltage Sent (V) = ,");
-  Serial.print(" ,");
-  Serial.print(V);
+//   //Serial.print("\nVoltage Sent (V) = ,");
+//   Serial.print(" ,");
+//   Serial.print(V);
 
-  motor1.setVoltage(3.5);
+//motor1.setVoltage(6.5);
 
-  // delay(2000);
+//   // delay(2000);
 
-  // motor1.setVoltage(6.5);
+//   // motor1.setVoltage(6.5);
 
-  // delay(2000);
+//   // delay(2000);
 
-  //motor1.brake();
+//   //motor1.brake();
 
 
 
@@ -72,15 +75,14 @@ void loop() {
 
   
 
-   motorPosition = motor1.readEncoder();
+//    motorPosition = motor1.readEncoder();
 
 
-  // int timeToRead = micros();
-double motorCurrentAverage = motor1.readCurrent();
+//   // int timeToRead = micros();
+// double motorCurrentAverage = motor1.readCurrent();
 
 //double motorVoltageAverage = motor1.readLoadVoltage();
 
-double motorPowerAverage = motor1.readPower();
   // int timeToRead2 = micros();
 
 
@@ -100,22 +102,21 @@ double motorPowerAverage = motor1.readPower();
 
 
   // Serial.print("\nMotor Current = ,");
-  Serial.print(" ,");
-  Serial.print(motorCurrentAverage);
+//   Serial.print(" ,");
+//   Serial.print(motorCurrentAverage);
 
-//  Serial.print("\nMotorLoad = ");
-//  Serial.print(motorVoltageAverage);
+// //  Serial.print("\nMotorLoad = ");
+// //  Serial.print(motorVoltageAverage);
 
-  // Serial.print("\nMotor Power = ,");
-  Serial.print(" ,");
-  Serial.print(motorPowerAverage);
 
-  // Serial.print("\nCurrent Encoder Count = ,");
-  Serial.print(" ,");
-  Serial.print(motorPosition);
-  
 
-   motor1.speed();
+//   // Serial.print("\nCurrent Encoder Count = ,");
+//   Serial.print(" ,");
+//   Serial.print(motorPosition);
+
+Serial.print("\nthis is the speed = ");
+Serial.print(motor1.speed());
+
 
 //  Serial.print("\npositionIncrementFlag = ");
 //  Serial.print(motor1.positionIncrementFlag);
@@ -164,6 +165,12 @@ double motorPowerAverage = motor1.readPower();
 
 	//delay(1000);
 	//LRA1.test2();
+  //int value = 0;
+
+   Serial.print("The value = ");
+   Serial.print(value);
+
+   delay(100);
 
 
 }
