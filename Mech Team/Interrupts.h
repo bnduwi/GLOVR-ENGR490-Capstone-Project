@@ -4,7 +4,7 @@ int value = 0;
 
 void printyprint(){
 
-	value++;
+	//motor1.speed();
 
 }
 

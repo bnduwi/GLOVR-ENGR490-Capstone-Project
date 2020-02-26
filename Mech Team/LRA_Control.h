@@ -14,7 +14,7 @@ LRA(int multiplexerPort_Input);
 
 void tcaSelect(int port);
 
-void playWaveform(int effect);
+void playWaveForm(int effect);
 
 };
 

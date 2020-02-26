@@ -1,5 +1,5 @@
 
-struct finger {
+struct Finger {
 
 	int potPin[4];
 
@@ -12,13 +12,13 @@ struct finger {
 };
 
 
-class hand {
+class Hand {
 
 public:
 
-	finger fingers[5];
+	Finger fingers[5];
 
-	hand(int pins_Input[]); //Takes input pins in same order as the documentation except for the extra thumb pin 
+	Hand(int pins_Input[]); //Takes input pins in same order as the documentation except for the extra thumb pin 
 							//which is placed at the end of the array;
 	void calibrate();
 

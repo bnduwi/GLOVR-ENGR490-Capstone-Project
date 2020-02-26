@@ -7,7 +7,7 @@
 
 
 
-motor::motor(int motorIN1_Input, int motorIN2_Input, float motorInputVoltage_Input, int motorGearRatio_Input, 
+Motor::Motor(int motorIN1_Input, int motorIN2_Input, float motorInputVoltage_Input, int motorGearRatio_Input, 
 			 int encoderPin1_Input, int encoderPin2_Input, double encoderPulsePerRotation_Input, int currentSensorAddress_Input){
 
 	motorIN1 = motorIN1_Input;
@@ -34,15 +34,15 @@ motor::motor(int motorIN1_Input, int motorIN2_Input, float motorInputVoltage_Inp
 
 	currentSensor = new Adafruit_INA219(currentSensorAddress_Input);
 
-	motor::currentSensor->begin();
+	Motor::currentSensor->begin();
 
-	motor::currentSensor->setCalibration_16V_400mA(); // IF LARGER MOTORS ARE USED CHANGE THIS CALIBRATION
+	Motor::currentSensor->setCalibration_16V_400mA(); // IF LARGER MOTORS ARE USED CHANGE THIS CALIBRATION
 
   	shaftRev = 1.0/ (encoderPulsePerRotation*motorGearRatio);
 
 }
 
-void motor::setVoltage(double voltage){ ///35 is the cutoff pwm value
+void Motor::setVoltage(double voltage){ ///35 is the cutoff pwm value
 
 	if (voltage > 0){
 
@@ -83,21 +83,21 @@ void motor::setVoltage(double voltage){ ///35 is the cutoff pwm value
 }
 
 
-double motor::readEncoder(){
+double Motor::readEncoder(){
 
-	return (motor::motorEncoder->read())*shaftRev; //look into data types for encoder 
-
-}
-
-void motor::setEncoder(int encoderSetValue){
-
-
-	motor::motorEncoder->write(encoderSetValue);
+	return (Motor::motorEncoder->read())*shaftRev; //look into data types for encoder 
 
 }
 
+void Motor::setEncoder(int encoderSetValue){
 
-double motor::speed(){ ///THIS FUNCTION HAS A DELAY THAT MAY CAUSE ISSUES, LOOK INTO INTERUPTS AS ALTERNATIVE
+
+	Motor::motorEncoder->write(encoderSetValue);
+
+}
+
+
+double Motor::speed(){ ///THIS FUNCTION HAS A DELAY THAT MAY CAUSE ISSUES, LOOK INTO INTERUPTS AS ALTERNATIVE
 
 
 		////////////TESTING PRINTS//////////
@@ -106,7 +106,7 @@ double motor::speed(){ ///THIS FUNCTION HAS A DELAY THAT MAY CAUSE ISSUES, LOOK 
 		Serial.print(" ,");
 		Serial.print(lastPosition);
 
-	nowPosition = motor::readEncoder();
+	nowPosition = Motor::readEncoder();
 	  
 		//Serial.print("\nCurrent Position = ,");
 		Serial.print(" ,");
@@ -148,7 +148,7 @@ double motor::speed(){ ///THIS FUNCTION HAS A DELAY THAT MAY CAUSE ISSUES, LOOK 
 	return speed;
 }
 
-double motor::readCurrent(){ 
+double Motor::readCurrent(){ 
 
 	int iterations = 1000;
 
@@ -156,7 +156,7 @@ double motor::readCurrent(){
 
 	for (int i = 0; i < iterations; i++){
 
-		currentReadings += motor::currentSensor->getCurrent_mA();
+		currentReadings += Motor::currentSensor->getCurrent_mA();
 
 	}
 
@@ -166,7 +166,7 @@ double motor::readCurrent(){
 }
 
 
-void motor::brake(){
+void Motor::brake(){
 
 	analogWrite(motorIN2, HIGH);
 
@@ -176,11 +176,11 @@ void motor::brake(){
 }
 
 
-int motor::incrementPosition(double degrees){
+int Motor::incrementPosition(double degrees){
 
 	if (positionIncrementFlag == 0){
 
-		motor::setEncoder(0);
+		Motor::setEncoder(0);
 
 		positionIncrementFlag = 1;		
 
@@ -192,9 +192,9 @@ int motor::incrementPosition(double degrees){
 
 	if (degrees > 0.0){
 
-		if(motor::readEncoder() >= (0.4*degrees)){
+		if(Motor::readEncoder() >= (0.4*degrees)){
 
-			motor::brake();
+			Motor::brake();
 
 			reachedPositionFlag = 1;
 
@@ -204,7 +204,7 @@ int motor::incrementPosition(double degrees){
 
 		else{
 
-			motor::setVoltage(motorInputVoltage);
+			Motor::setVoltage(motorInputVoltage);
 
 
 		}
@@ -219,9 +219,9 @@ int motor::incrementPosition(double degrees){
 
 	if(degrees < 0){
 
-		if(motor::readEncoder() <= degrees){
+		if(Motor::readEncoder() <= degrees){
 
-			motor::brake();
+			Motor::brake();
 
 			reachedPositionFlag = 1;
 
@@ -231,7 +231,7 @@ int motor::incrementPosition(double degrees){
 
 		else{
 
-			motor::setVoltage(-motorInputVoltage);
+			Motor::setVoltage(-motorInputVoltage);
 
 
 		}

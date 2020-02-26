@@ -29,7 +29,7 @@ void LRA::tcaSelect(int port){
 
 }
 
-void LRA::playWaveform(int effect){
+void LRA::playWaveForm(int effect){
 
 
 	LRA::tcaSelect(multiplexerPort);

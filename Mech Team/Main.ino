@@ -1,9 +1,4 @@
-//#include <Encoder.h>
-#include "Motor_Control.h"
-#include <Wire.h>
-#include "LRA_Control.h"
-#include "Hand.h"
-#include "interrupts.h"
+#include "Object_Declerations.h"
 
 // Change these pin numbers to the pins connected to your encoder.
 //   Best Performance: both pins have interrupt capability
@@ -12,17 +7,16 @@
 #define MOTOR_IN1 6 
 #define MOTOR_IN2 7
 
-motor motor1(6,7,6.5,50,11,12,28.0,0x40);
 
-LRA LRA0(0), LRA1(1), LRA2(2), LRA3(3), LRA4(4), LRA5(5), LRA6(6), LRA7(7);
-int potPinss[16] = {A9,A8,A7,A6,A3,A2,A1,A0,A22,A21,A20,A19,A18,A17,A16,A15}; //
-hand hand (potPinss);
 
- double motorCurrentAverage;
+BeeriConnect Beeri;
+
+
+double motorCurrentAverage;
  
- double rad = PI/180;
+double rad = PI/180;
  
- double angle = 0;
+double angle = 0;
  
 double initialposition = 0;
 
@@ -30,15 +24,18 @@ double initialtime = 0;
 
 void setup() {
 
-  Serial.begin(9600);
-  Serial.print("Encoder and Motor Test:");
+ // Serial.begin(9600);
+ // Serial.print("Encoder and Motor Test:");
 
   startInterrupts();
+
 
 }
 
 
 void loop() {
+
+  Beeri.update(&LRAa);
 
 //   //Serial.print("\n\nLoop Time = ,");
 //   Serial.print("\n");
@@ -114,8 +111,8 @@ void loop() {
 //   Serial.print(" ,");
 //   Serial.print(motorPosition);
 
-Serial.print("\nthis is the speed = ");
-Serial.print(motor1.speed());
+// Serial.print("\nthis is the speed = ");
+// Serial.print(Motor1.speed());
 
 
 //  Serial.print("\npositionIncrementFlag = ");
@@ -142,35 +139,16 @@ Serial.print(motor1.speed());
 
 
 
-  // Serial.print("\ntime to read = ");
-  // Serial.print(timeToRead2-timeToRead);
 
-	// LRA0.playWaveform(52);
-
-	// LRA1.playWaveform(52);
-
-	// LRA2.playWaveform(52);
-
-	// LRA3.playWaveform(52);
-
-	// LRA4.playWaveform(52);
-
-	// LRA5.playWaveform(52);
-
-	// LRA6.playWaveform(52);
-
-	//delay(2000);
-
-	//LRA7.playWaveform(20);
 
 	//delay(1000);
 	//LRA1.test2();
   //int value = 0;
 
-   Serial.print("The value = ");
-   Serial.print(value);
+   // Serial.print("The value = ");
+   // Serial.print(value);
 
-   delay(100);
+   delay(1000);
 
 
 }
