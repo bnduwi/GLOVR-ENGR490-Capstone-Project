@@ -95,21 +95,21 @@ public class FingerMotionUpdater : MonoBehaviour
 
         }
 
-        void KnuckleRotatorXAxis(string knuckleName, float rotationAngle)
+        void KnuckleRotatorXAxis(string knuckle, float rotationAngle)
         {
-            GameObject hand = GameObject.FindGameObjectWithTag(knuckleName);
+            GameObject hand = GameObject.FindGameObjectWithTag(knuckle);
             hand.transform.rotation = Quaternion.Euler(rotationAngle, 0, 0);
         }
 
-        void KnuckleRotatorZAxis(string knuckleName, float rotationAngle)
+        void KnuckleRotatorZAxis(string knuckle, float rotationAngle)
         {
-            GameObject hand = GameObject.FindGameObjectWithTag(knuckleName);
+            GameObject hand = GameObject.FindGameObjectWithTag(knuckle);
             hand.transform.rotation = Quaternion.Euler(0, 0, rotationAngle);
         }
 
-        void KnuckleRotatorYAxis(string knuckleName, float rotationAngle)
+        void KnuckleRotatorYAxis(string knuckle, float rotationAngle)
         {
-            GameObject hand = GameObject.FindGameObjectWithTag(knuckleName);
+            GameObject hand = GameObject.FindGameObjectWithTag(knuckle);
             hand.transform.rotation = Quaternion.Euler(0, rotationAngle, 0);
         }
 
