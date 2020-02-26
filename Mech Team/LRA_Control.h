@@ -1,3 +1,6 @@
+#ifndef LRACON
+#define LRACON
+
 #include <Adafruit_DRV2605.h>
 
 
@@ -18,3 +21,4 @@ void playWaveForm(int effect);
 
 };
 
+#endif

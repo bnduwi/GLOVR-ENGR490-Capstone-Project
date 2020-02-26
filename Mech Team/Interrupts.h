@@ -1,3 +1,6 @@
+#ifndef INTERVALTIMERS
+#define INTERVALTIMERS
+
 IntervalTimer test1;
 
 int value = 0;
@@ -17,3 +20,4 @@ void startInterrupts(){
 
 
 
+#endif

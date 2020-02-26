@@ -1,4 +1,8 @@
+#ifndef SERIALCOM
+#define SERIALCOM
+
 #include "LRA_Control.h"
+#include "Motor_Control.h"
 
 class BeeriConnect{
 
@@ -13,8 +17,10 @@ public:
 	BeeriConnect();
 
 
-	void update(LRA &LRAa);
+	void update(LRA *inputLRAs, Motor *inputMotors);
 
 	//static int createInt(int number1, int number2, int number3);
 
 };
+
+#endif

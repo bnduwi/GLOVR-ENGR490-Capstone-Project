@@ -4,7 +4,7 @@
 #include <stdlib.h> 
 
 
-///Formatting l,a,123$
+
 
 BeeriConnect::BeeriConnect(){
 
@@ -12,172 +12,147 @@ BeeriConnect::BeeriConnect(){
 
 }
 
-void BeeriConnect::update(LRA &LRAa){
+void BeeriConnect::update(LRA *inputLRAs, Motor *inputMotors){
 
-	Serial.print("\nupdating");
 
-	bytesRead = Serial.readBytesUntil('$', buffer, 256);
+	if(Serial.available()){
 
-				//Serial.print(bytesRead);
+		Serial.print("\nupdating");
 
-	buffer[bytesRead + 1] = NULL;
+		bytesRead = Serial.readBytesUntil('$', buffer, 256);
 
-	int miniBuffer;
+		buffer[bytesRead + 1] = NULL;
 
-	char *strParse;
+		char *strParse;
 
-	char test;
+		int valNum, type, location;
 
-	strParse = strtok (buffer, ",");
+		strParse = strtok (buffer, ",");
 
-	Serial.printf(strParse);
+		type = *strParse;
 
-	strParse = strtok (NULL, ",");
+		strParse = strtok (NULL, ",");
 
-	Serial.printf(strParse);
+		location = *strParse;
 
-	strParse = strtok (NULL, ",");
+		strParse = strtok (NULL, ",");
 
-	miniBuffer = atoi(strParse);
+		valNum = atoi(strParse);
 
-	Serial.print(2*miniBuffer);
+		Serial.print(type);
 
-	// switch(miniBuffer[0]){
+		Serial.print(" ");
 
+		Serial.print(location);
 
-	// 	case 'l':
+		Serial.print(" ");
 
-	// 		switch(miniBuffer[1]){
+		Serial.print(valNum);
 
-	// 			case 'a':
+		switch(type){
 
-	// 				LRAa.playWaveForm(miniBuffer[2]);
+			case 108:
 
-	// 			// case 'b':
+				
+				switch(location){
 
-	// 			// case 'c':
 
-	// 			// case 'd':
+					case 97:
 
-	// 			// case 'e':
+						inputLRAs[0].playWaveForm(valNum);
 
-	// 			// case 'h':
+						break;
 
-	// 			// case 'f':
+					case 98:
 
-	// 			// case 'g':
+						inputLRAs[1].playWaveForm(valNum);
 
+						break;
 
+					case 99:
 
-	// 		}
+						inputLRAs[2].playWaveForm(valNum);
 
-		//case 'f':
+						break;
 
+					case 100:
 
-	//}
+						inputLRAs[3].playWaveForm(valNum);
 
+						break;
 
+					case 101:
 
+						inputLRAs[4].playWaveForm(valNum);
 
+						break;
 
-	// while (miniBuffer != NULL){
+					case 102:
 
+						inputLRAs[5].playWaveForm(valNum);
 
-	// 	switch(miniBuffer){
+						break;
 
-	// 		case l:
+					case 103:
 
+						inputLRAs[6].playWaveForm(valNum);
 
+						break;
 
-	// 		case f:
+					case 104:
 
-	// 		default:
+						inputLRAs[7].playWaveForm(valNum);
 
+						break;
 
+					default:
+					
+						break;	
 
+				}
 
 
-	// 	}
+				break;
 
+			case 102:
 
-	// 	miniBuffer = strtok (NULL, ",")
-	// }
+				switch(location){
 
+					case 97:
 
+						inputMotors[0].setVoltage(valNum);
 
+						break;
 
+					case 98:
+					
+						break;
 
+					case 99:
 
+						break;
 
+					case 100:
 
+						break;
 
-	// while ( i < bytesRead ){
+					case 101:
 
-	// 	switch(buffer[i]) {
+						break;
 
-	// 		case 'a':
+					default: 
 
+						break;
 
-	// 			if ( buffer[i+1] == ",") { //if the second char is a comma we know its the LRA value
+				}
 
-	// 				int waveFormValue = createInt( buffer[i+2], buffer[i+3], buffer[i+4] );
 
-	// 				i += 5;
+			default:
 
-	// 				Serial.print(waveFormValue);
+				break;
 
-	// 			}
+		}
 
-	// 			else if ( buffer[i+1] == forceMarker ){ //if its t we know its a force value
-
-	// 				int forceValue = createInt( buffer[i+2], buffer[i+3], buffer[i+4] );
-
-	// 				i += 6;
-
-	// 				Serial.print(forceValue);
-	// 			}
-
-	// 			else {
-
-	// 				break;
-
-	// 			}
-
-
-			
-
-	// 		// case 'b':
-
-	// 		// case 'c':
-
-	// 		// case 'd':
-
-	// 		// case 'e':
-
-	// 		// case 'h':
-
-	// 		// case 'f':
-
-	// 		// case 'g':
-
-	// 		default:
-
-	// 			break;
-
-
-
-	// 	}
-
-
-	// }
-
+	}
+	
 }
-
-
-// int BeeriConnect::createInt(int number1, int number2, int number3){
-
-// 	return (number1*100) + (number2*10) + (number3*1); //assume that we are always recieving three ints
-// 													   // 1*100 + 3*10 + 5*1= 135
-
-
-// }

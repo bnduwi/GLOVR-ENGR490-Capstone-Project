@@ -1,4 +1,10 @@
-#include "Object_Declerations.h"
+
+#include "Motor_Control.h"
+#include "Hand.h"
+#include "interrupts.h"
+#include "Serial_Communication.h"
+#include "LRA_Control.h"
+
 
 // Change these pin numbers to the pins connected to your encoder.
 //   Best Performance: both pins have interrupt capability
@@ -7,9 +13,13 @@
 #define MOTOR_IN1 6 
 #define MOTOR_IN2 7
 
-
-
+Motor Motors[1] = {Motor(6,7,6.5,50,11,12,28.0,0x40)};
+int potPinss[16] = {A9,A8,A7,A6,A3,A2,A1,A0,A22,A21,A20,A19,A18,A17,A16,A15}; 
+Hand Hand1 (potPinss);
 BeeriConnect Beeri;
+LRA LRAs[8] = {0,1,2,3,4,5,6,7};
+
+
 
 
 double motorCurrentAverage;
@@ -27,7 +37,7 @@ void setup() {
  // Serial.begin(9600);
  // Serial.print("Encoder and Motor Test:");
 
-  startInterrupts();
+ // startInterrupts();
 
 
 }
@@ -35,7 +45,7 @@ void setup() {
 
 void loop() {
 
-  Beeri.update(&LRAa);
+  Beeri.update(LRAs,Motors);
 
 //   //Serial.print("\n\nLoop Time = ,");
 //   Serial.print("\n");
@@ -148,7 +158,7 @@ void loop() {
    // Serial.print("The value = ");
    // Serial.print(value);
 
-   delay(1000);
+   delay(100);
 
 
 }

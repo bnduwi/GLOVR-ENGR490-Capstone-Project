@@ -1,3 +1,5 @@
+#ifndef HANDS
+#define HANDS
 
 struct Finger {
 
@@ -28,3 +30,4 @@ public:
 };
 
 
+#endif

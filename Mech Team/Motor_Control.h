@@ -1,3 +1,6 @@
+#ifndef MOTORCON
+#define MOTORCON
+
 #include <Encoder.h>
 #include <Adafruit_INA219.h>
 //#include <IntervalTimer.h>
@@ -48,3 +51,5 @@ public:
   double readCurrent();
 
 };
+
+#endif
