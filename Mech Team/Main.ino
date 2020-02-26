@@ -45,7 +45,7 @@ void setup() {
 
 void loop() {
 
-  Beeri.update(LRAs,Motors);
+  Beeri.update(LRAs,Motors,&Hand1);
 
 //   //Serial.print("\n\nLoop Time = ,");
 //   Serial.print("\n");

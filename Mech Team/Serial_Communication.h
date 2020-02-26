@@ -3,6 +3,7 @@
 
 #include "LRA_Control.h"
 #include "Motor_Control.h"
+#include "Hand.h"
 
 class BeeriConnect{
 
@@ -17,7 +18,7 @@ public:
 	BeeriConnect();
 
 
-	void update(LRA *inputLRAs, Motor *inputMotors);
+	void update(LRA *inputLRAs, Motor *inputMotors, Hand *inputHand);
 
 	//static int createInt(int number1, int number2, int number3);
 

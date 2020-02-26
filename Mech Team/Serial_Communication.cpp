@@ -12,7 +12,7 @@ BeeriConnect::BeeriConnect(){
 
 }
 
-void BeeriConnect::update(LRA *inputLRAs, Motor *inputMotors){
+void BeeriConnect::update(LRA *inputLRAs, Motor *inputMotors, Hand *inputHand){
 
 
 	if(Serial.available()){
@@ -152,6 +152,27 @@ void BeeriConnect::update(LRA *inputLRAs, Motor *inputMotors){
 				break;
 
 		}
+
+	}
+
+
+	if (Serial.availableForWrite()){
+
+
+		Serial.print("a1,");
+		Serial.print(inputHand[0].fingers[0].potCurrent[0]);
+		Serial.print("$");
+
+		Serial.print("a2,");
+		Serial.print(inputHand[0].fingers[0].potCurrent[1]);
+		Serial.print("$");
+
+		Serial.print("a3,");
+		Serial.print(inputHand[0].fingers[0].potCurrent[2]);
+		Serial.print("$");
+
+
+
 
 	}
 	
