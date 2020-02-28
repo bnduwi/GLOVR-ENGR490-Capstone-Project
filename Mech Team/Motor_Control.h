@@ -3,15 +3,16 @@
 
 #include <Encoder.h>
 #include <Adafruit_INA219.h>
-//#include <IntervalTimer.h>
+#include <IntervalTimer.h>
 
 class Motor {
 
 private:
 
-  int motorIN1, motorIN2, motorGearRatio, encoderPin1, encoderPin2;
+  int motorIN1, motorIN2, motorGearRatio, encoderPin1, encoderPin2, followthresholdSpeed, followthresholdCurrent, followFeedInValue, 
+      followFeedOutValue;
 
-  double encoderPulsePerRotation, shaftRev;
+  double encoderPulsePerRotation, shaftRev, followInputVoltage;
 
   float motorInputVoltage;
 
@@ -21,13 +22,7 @@ private:
 
 public:
 
-  double lastPosition = 0;
-  
-  double nowPosition = 0;
-  
-  double time1 = 0;
-  
-  double time2 = 0;
+  volatile double lastPosition, nowPosition, time1, time2, speedValue;
   
   int reachedPositionFlag = 0, positionIncrementFlag;
 
@@ -38,17 +33,19 @@ public:
 
   void brake();
 
-  int incrementPosition(double degrees); //This will require charecterising the motor
-
-  //Void setTorque(int torque) // This will also require charecterisation
-
   double readEncoder();
 
   void setEncoder(int encoderSetValue);
 
-  double speed();
+  static void speed( Motor *inputMotors, int motorNumber );
 
   double readCurrent();
+
+  void modeControl();
+
+  void followControl();
+
+  void torqueControl(int torque);
 
 };
 

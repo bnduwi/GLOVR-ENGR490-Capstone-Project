@@ -1,15 +1,8 @@
-
 #include "Motor_Control.h"
 #include "Hand.h"
-#include "interrupts.h"
 #include "Serial_Communication.h"
 #include "LRA_Control.h"
 
-
-// Change these pin numbers to the pins connected to your encoder.
-//   Best Performance: both pins have interrupt capability
-//   Good Performance: only the first pin has interrupt capability
-//   Low Performance:  neither pin has interrupt capability
 #define MOTOR_IN1 6 
 #define MOTOR_IN2 7
 
@@ -18,147 +11,57 @@ int potPinss[16] = {A9,A8,A7,A6,A3,A2,A1,A0,A22,A21,A20,A19,A18,A17,A16,A15};
 Hand Hand1 (potPinss);
 BeeriConnect Beeri;
 LRA LRAs[8] = {0,1,2,3,4,5,6,7};
+IntervalTimer speedInterrupt, serialSendInterrupt, serialRecieveInterrupt;
 
+void startInterrupt();
 
+void motorSpeedReferesh();
 
+void serialRefereshSend();
 
-double motorCurrentAverage;
- 
-double rad = PI/180;
- 
-double angle = 0;
- 
-double initialposition = 0;
-
-double initialtime = 0;
+void serialRefereshRecieve();
 
 void setup() {
 
- // Serial.begin(9600);
- // Serial.print("Encoder and Motor Test:");
-
- // startInterrupts();
-
+  startInterrupt();
 
 }
 
 
 void loop() {
 
-  Beeri.update(LRAs,Motors,&Hand1);
+  //Motors[0].followControl();
 
-//   //Serial.print("\n\nLoop Time = ,");
-//   Serial.print("\n");
-//   Serial.print(millis());
-
-//   //Serial.print("\nTheta Value in degrees (for sinewave voltage input) = ,");
-//   Serial.print(" ,");
-//   Serial.print(angle);
-
-//   double V = (6.5*sin(rad*angle));
-//   //double V = (6.5);
-//   angle = angle+5;
-  
-//   double motorPosition; //////this sequence isnt working, it will play the first and then not work
-
-//   //Serial.print("\nVoltage Sent (V) = ,");
-//   Serial.print(" ,");
-//   Serial.print(V);
-
-//motor1.setVoltage(6.5);
-
-//   // delay(2000);
-
-//   // motor1.setVoltage(6.5);
-
-//   // delay(2000);
-
-//   //motor1.brake();
+}
 
 
+void startInterrupt(){
 
- 
+  speedInterrupt.begin(motorSpeedReferesh, 15000);
+  serialSendInterrupt.begin(serialRefereshSend, 15000);
+  serialRecieveInterrupt.begin(serialRefereshRecieve, 1000);
+  serialRecieveInterrupt.priority(200);
 
+}
 
-  
+void motorSpeedReferesh(){
 
-//    motorPosition = motor1.readEncoder();
+  Motors[0].speed(Motors, 0);
 
+}
 
-//   // int timeToRead = micros();
-// double motorCurrentAverage = motor1.readCurrent();
+void serialRefereshRecieve(){
 
-//double motorVoltageAverage = motor1.readLoadVoltage();
-
-  // int timeToRead2 = micros();
-
-
-//if (motor1.reachedPositionFlag == 1){
-//
-//
-//}
-//  
-//else{
-//
-//  motor1.incrementPosition(360.0);
-//
-//
-//}
+  Beeri.updateRecieve(LRAs, Motors);
 
 
+}
 
+void serialRefereshSend(){
 
-  // Serial.print("\nMotor Current = ,");
-//   Serial.print(" ,");
-//   Serial.print(motorCurrentAverage);
+  Hand1.update();
 
-// //  Serial.print("\nMotorLoad = ");
-// //  Serial.print(motorVoltageAverage);
-
-
-
-//   // Serial.print("\nCurrent Encoder Count = ,");
-//   Serial.print(" ,");
-//   Serial.print(motorPosition);
-
-// Serial.print("\nthis is the speed = ");
-// Serial.print(Motor1.speed());
-
-
-//  Serial.print("\npositionIncrementFlag = ");
-//  Serial.print(motor1.positionIncrementFlag);
-//
-//  Serial.print("\nreachedPositionFlag = ");
-//  Serial.print(motor1.reachedPositionFlag);
-
-
-  // Serial.print("\nthe last Pin is = ");
-  // Serial.print(hand.fingers[4].potPin[3]);
-
-  // Serial.print("\nand its position is = ");
-  // Serial.print(hand.fingers[4].potCurrent[1]);
-
-
-  // int timeToUpdate = millis();
-  // hand.update();
-  // delay(10);
-  // int timeToUpdate2 = millis();
-
-  // Serial.print("\ntime to update all pots is = ");
-  // Serial.print(timeToUpdate2-timeToUpdate);
-
-
-
-
-
-	//delay(1000);
-	//LRA1.test2();
-  //int value = 0;
-
-   // Serial.print("The value = ");
-   // Serial.print(value);
-
-   delay(100);
+  //Beeri.updateSend(&Hand1);
 
 
 }

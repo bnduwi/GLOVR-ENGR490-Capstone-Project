@@ -3,8 +3,6 @@
 #include <Encoder.h>
 #include <Adafruit_INA219.h>
 
-//#include <IntervalTimer.h>
-
 
 
 Motor::Motor(int motorIN1_Input, int motorIN2_Input, float motorInputVoltage_Input, int motorGearRatio_Input, 
@@ -38,7 +36,19 @@ Motor::Motor(int motorIN1_Input, int motorIN2_Input, float motorInputVoltage_Inp
 
 	Motor::currentSensor->setCalibration_16V_400mA(); // IF LARGER MOTORS ARE USED CHANGE THIS CALIBRATION
 
-  	shaftRev = 1.0/ (encoderPulsePerRotation*motorGearRatio);
+  	shaftRev = 1.0/(encoderPulsePerRotation*motorGearRatio);
+
+  	time1 = time2 = nowPosition = lastPosition = 0;
+
+  	followthresholdSpeed = 5;
+
+  	followthresholdCurrent = 75.0;
+
+  	followFeedInValue = 4;
+
+  	followFeedOutValue = 0;
+
+  	followInputVoltage = 0.0;
 
 }
 
@@ -52,7 +62,7 @@ void Motor::setVoltage(double voltage){ ///35 is the cutoff pwm value
 
 		double pulseWidth = (5.8073 * exp ( ( .5593 * abs(voltage)  )  )  );
 
-		digitalWrite(motorIN1, LOW);
+		analogWrite(motorIN1, LOW);
 
 		analogWrite(motorIN2, abs(pulseWidth));
 
@@ -66,7 +76,7 @@ void Motor::setVoltage(double voltage){ ///35 is the cutoff pwm value
 
 		double pulseWidth = (5.8073 * exp ( ( .5593 * abs(voltage)  ) + (motorInputVoltage-6.5) )  );
 
-		digitalWrite(motorIN2, LOW);
+		analogWrite(motorIN2, LOW);
 
 		analogWrite(motorIN1, abs(pulseWidth));
 
@@ -97,60 +107,26 @@ void Motor::setEncoder(int encoderSetValue){
 }
 
 
-double Motor::speed(){ ///THIS FUNCTION HAS A DELAY THAT MAY CAUSE ISSUES, LOOK INTO INTERUPTS AS ALTERNATIVE
+void Motor::speed(Motor *inputMotors, int motorNumber){ 
 
-
-		////////////TESTING PRINTS//////////
-
-		//Serial.print("\nPrevious Position = ,");
-		Serial.print(" ,");
-		Serial.print(lastPosition);
-
-	nowPosition = Motor::readEncoder();
+	inputMotors[motorNumber].nowPosition = inputMotors[motorNumber].readEncoder();
 	  
-		//Serial.print("\nCurrent Position = ,");
-		Serial.print(" ,");
-		Serial.print(nowPosition);
-		  
-		//Serial.print("\nPrevious Time = ,");
-		Serial.print(" ,");
-		Serial.print(time1);
-	  
-	time2 = millis();
+	inputMotors[motorNumber].time2 = micros();
 	 
-		//Serial.print("\nCurrent Time = ,");
-		Serial.print(" ,");
-		Serial.print(time2);
-	  
-	//double speed = ((secondPosition-currentPosition)/((time2-time1)*0.01))*1.62; 
-	double speed = ((nowPosition - lastPosition) / ((time2 - time1)*0.001));
-	  
-		//Serial.print("\nTime Step (ms) = ,");
-		Serial.print(" ,");
-		Serial.print(time2 - time1);
-		  
-		//Serial.print("\nPosition Difference (rev) = ,");
-		Serial.print(" ,");
-		Serial.print(nowPosition - lastPosition);
-	  
-	lastPosition = nowPosition;
+	inputMotors[motorNumber].speedValue = (60*(inputMotors[motorNumber].nowPosition - inputMotors[motorNumber].lastPosition) / ((inputMotors[motorNumber].time2-inputMotors[motorNumber].time1)*0.000001));
+	 
+	inputMotors[motorNumber].lastPosition = inputMotors[motorNumber].nowPosition;
 
-	time1 = time2;
-	  
-		//Serial.print("\nSpeed (RPM) = ,");
-		Serial.print(" ,");
-		Serial.print(60*speed);
-		  
-		//Serial.print("\nProportional Encoder Steps per Shaft Rev = ,");
-		Serial.print(" ,");
-		Serial.print(encoderPulsePerRotation*motorGearRatio);
+	inputMotors[motorNumber].time1 = inputMotors[motorNumber].time2;  
 
-	return speed;
+
+
+	  
 }
 
 double Motor::readCurrent(){ 
 
-	int iterations = 1000;
+	int iterations = 100;
 
 	double currentReadings = 0;
 
@@ -176,68 +152,39 @@ void Motor::brake(){
 }
 
 
-int Motor::incrementPosition(double degrees){
+void Motor::followControl(){ //causes the motor to retract or unroll cable based on current and speed readings
 
-	if (positionIncrementFlag == 0){
-
-		Motor::setEncoder(0);
-
-		positionIncrementFlag = 1;		
-
-	}
+	int currentReading = Motor::readCurrent();
 
 
+	if ( (speedValue < 5) && (currentReading >= -followthresholdCurrent) ){
 
+		followInputVoltage -= .3;
 
-
-	if (degrees > 0.0){
-
-		if(Motor::readEncoder() >= (0.4*degrees)){
-
-			Motor::brake();
-
-			reachedPositionFlag = 1;
-
-			positionIncrementFlag = 0;
-
-		}
-
-		else{
-
-			Motor::setVoltage(motorInputVoltage);
-
-
-		}
+		Serial.print("feeding In ");
+		Serial.print(currentReading);
+		Serial.print(" : ");
+		Serial.print(speedValue);
+		Serial.print("\n");
 
 	}
 
+	else {
 
+		followInputVoltage = 0;
 
-
-
-
-
-	if(degrees < 0){
-
-		if(Motor::readEncoder() <= degrees){
-
-			Motor::brake();
-
-			reachedPositionFlag = 1;
-
-			positionIncrementFlag = 0;
-
-		}
-
-		else{
-
-			Motor::setVoltage(-motorInputVoltage);
-
-
-		}
+		Serial.print("feeding Out ");
+		Serial.print(currentReading);
+		Serial.print(" : ");
+		Serial.print(speedValue);
+		Serial.print("\n");
 
 	}
+
+	Motor::setVoltage(followInputVoltage);
+
 
 
 }
+
 

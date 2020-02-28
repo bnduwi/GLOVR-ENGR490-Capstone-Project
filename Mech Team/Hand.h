@@ -11,12 +11,16 @@ struct Finger {
 
 	int potCurrent[4];
 
+	int potPrevious[4];
+
 };
 
 
 class Hand {
 
 public:
+
+	int smoothingCounter = 0, smoothingValue = 4;
 
 	Finger fingers[5];
 

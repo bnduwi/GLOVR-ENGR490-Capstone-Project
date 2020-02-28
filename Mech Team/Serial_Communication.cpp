@@ -12,16 +12,14 @@ BeeriConnect::BeeriConnect(){
 
 }
 
-void BeeriConnect::update(LRA *inputLRAs, Motor *inputMotors, Hand *inputHand){
+void BeeriConnect::updateRecieve(LRA *inputLRAs, Motor *inputMotors){
 
 
 	if(Serial.available()){
 
-		Serial.print("\nupdating");
-
 		bytesRead = Serial.readBytesUntil('$', buffer, 256);
 
-		buffer[bytesRead + 1] = NULL;
+		//buffer[bytesRead + 1] = NULL;
 
 		char *strParse;
 
@@ -38,16 +36,6 @@ void BeeriConnect::update(LRA *inputLRAs, Motor *inputMotors, Hand *inputHand){
 		strParse = strtok (NULL, ",");
 
 		valNum = atoi(strParse);
-
-		Serial.print(type);
-
-		Serial.print(" ");
-
-		Serial.print(location);
-
-		Serial.print(" ");
-
-		Serial.print(valNum);
 
 		switch(type){
 
@@ -125,18 +113,26 @@ void BeeriConnect::update(LRA *inputLRAs, Motor *inputMotors, Hand *inputHand){
 						break;
 
 					case 98:
+
+						inputMotors[1].setVoltage(valNum);
 					
 						break;
 
 					case 99:
 
+						inputMotors[2].setVoltage(valNum);
+
 						break;
 
 					case 100:
 
+						inputMotors[3].setVoltage(valNum);
+
 						break;
 
 					case 101:
+
+						inputMotors[4].setVoltage(valNum);
 
 						break;
 
@@ -154,26 +150,83 @@ void BeeriConnect::update(LRA *inputLRAs, Motor *inputMotors, Hand *inputHand){
 		}
 
 	}
+	
+}
 
+
+void BeeriConnect::updateSend(Hand *inputHand){
 
 	if (Serial.availableForWrite()){
 
-
 		Serial.print("a1,");
 		Serial.print(inputHand[0].fingers[0].potCurrent[0]);
-		Serial.print("$");
+		Serial.print(";");
 
 		Serial.print("a2,");
 		Serial.print(inputHand[0].fingers[0].potCurrent[1]);
-		Serial.print("$");
+		Serial.print(";");
 
 		Serial.print("a3,");
 		Serial.print(inputHand[0].fingers[0].potCurrent[2]);
-		Serial.print("$");
+		Serial.print(";");
 
+		Serial.print("b1,");
+		Serial.print(inputHand[0].fingers[1].potCurrent[0]);
+		Serial.print(";");
+
+		Serial.print("b2,");
+		Serial.print(inputHand[0].fingers[1].potCurrent[1]);
+		Serial.print(";");
+
+		Serial.print("b3,");
+		Serial.print(inputHand[0].fingers[1].potCurrent[2]);
+		Serial.print(";");
+
+		Serial.print("c1,");
+		Serial.print(inputHand[0].fingers[2].potCurrent[0]);
+		Serial.print(";");
+
+		Serial.print("c2,");
+		Serial.print(inputHand[0].fingers[2].potCurrent[1]);
+		Serial.print(";");
+
+		Serial.print("c3,");
+		Serial.print(inputHand[0].fingers[2].potCurrent[2]);
+		Serial.print(";");
+
+		Serial.print("d1,");
+		Serial.print(inputHand[0].fingers[3].potCurrent[0]);
+		Serial.print(";");
+
+		Serial.print("d2,");
+		Serial.print(inputHand[0].fingers[3].potCurrent[1]);
+		Serial.print(";");
+
+		Serial.print("d3,");
+		Serial.print(inputHand[0].fingers[3].potCurrent[2]);
+		Serial.print(";");
+
+		Serial.print("e1,");
+		Serial.print(inputHand[0].fingers[4].potCurrent[0]);
+		Serial.print(";");
+
+		Serial.print("e2,");
+		Serial.print(inputHand[0].fingers[4].potCurrent[1]);
+		Serial.print(";");
+
+		Serial.print("e3,");
+		Serial.print(inputHand[0].fingers[4].potCurrent[2]);
+		Serial.print(";");
+
+		Serial.print("e4,");
+		Serial.print(inputHand[0].fingers[4].potCurrent[3]);
+		Serial.print(";");
+
+
+		Serial.print("\n");
 
 
 
 	}
-	
+
 }

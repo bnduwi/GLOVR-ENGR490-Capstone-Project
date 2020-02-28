@@ -17,10 +17,10 @@ public:
 
 	BeeriConnect();
 
+	void updateSend(Hand *inputHand);
 
-	void update(LRA *inputLRAs, Motor *inputMotors, Hand *inputHand);
+	void updateRecieve(LRA *inputLRAs, Motor *inputMotors);
 
-	//static int createInt(int number1, int number2, int number3);
 
 };
 
