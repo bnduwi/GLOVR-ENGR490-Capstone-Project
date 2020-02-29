@@ -50,15 +50,13 @@ Motor::Motor(int motorIN1_Input, int motorIN2_Input, float motorInputVoltage_Inp
 
   	followInputVoltage = 0.0;
 
+  	forceInput = 4;
+
 }
 
 void Motor::setVoltage(double voltage){ ///35 is the cutoff pwm value
 
 	if (voltage > 0){
-
-		//int pulseWidth = (voltage/motorInputVoltage)*255;
-
-		//double pulseWidth = 5.8073 * exp ( (.5593 * voltage) + (motorInputVoltage-6.5) );
 
 		double pulseWidth = (5.8073 * exp ( ( .5593 * abs(voltage)  )  )  );
 
@@ -69,10 +67,6 @@ void Motor::setVoltage(double voltage){ ///35 is the cutoff pwm value
 	}
 
 	else if (voltage < 0){
-
-		//int pulseWidth = (voltage/motorInputVoltage)*255;
-
-		//double pulseWidth = 5.8073 * exp ( (.5593 * voltage) + (motorInputVoltage-6.5) );
 
 		double pulseWidth = (5.8073 * exp ( ( .5593 * abs(voltage)  ) + (motorInputVoltage-6.5) )  );
 
@@ -161,28 +155,49 @@ void Motor::followControl(){ //causes the motor to retract or unroll cable based
 
 		followInputVoltage -= .3;
 
-		Serial.print("feeding In ");
-		Serial.print(currentReading);
-		Serial.print(" : ");
-		Serial.print(speedValue);
-		Serial.print("\n");
+		if (followInputVoltage <= -6.5) followInputVoltage = -6.5; 
+
+		// Serial.print("feeding In ");
+		// Serial.print(currentReading);
+		// Serial.print(" : ");
+		// Serial.print(speedValue);
+		// Serial.print("\n");
 
 	}
 
 	else {
 
-		followInputVoltage = 0;
+		// followInputVoltage = 0;
 
-		Serial.print("feeding Out ");
-		Serial.print(currentReading);
-		Serial.print(" : ");
-		Serial.print(speedValue);
-		Serial.print("\n");
+		// Serial.print("feeding Out ");
+		// Serial.print(currentReading);
+		// Serial.print(" : ");
+		// Serial.print(speedValue);
+		// Serial.print("\n");
 
 	}
 
 	Motor::setVoltage(followInputVoltage);
 
+
+
+}
+
+void Motor::modeControl(){
+
+	if (forceInput == 0){
+
+		Motor::followControl();
+
+	}
+
+	else{
+
+
+		Motor::setVoltage(forceInput);
+
+
+	}
 
 
 }

@@ -11,7 +11,7 @@ int potPinss[16] = {A9,A8,A7,A6,A3,A2,A1,A0,A22,A21,A20,A19,A18,A17,A16,A15};
 Hand Hand1 (potPinss);
 BeeriConnect Beeri;
 LRA LRAs[8] = {0,1,2,3,4,5,6,7};
-IntervalTimer speedInterrupt, serialSendInterrupt, serialRecieveInterrupt;
+IntervalTimer speedInterrupt, serialSendInterrupt, serialRecieveInterrupt, motorModeInterrupt;
 
 void startInterrupt();
 
@@ -21,26 +21,28 @@ void serialRefereshSend();
 
 void serialRefereshRecieve();
 
+void motorModeUpdate();
+
+
 void setup() {
 
   startInterrupt();
 
 }
 
-
-void loop() {
-
-  //Motors[0].followControl();
-
-}
+void loop(){}
 
 
 void startInterrupt(){
 
-  speedInterrupt.begin(motorSpeedReferesh, 15000);
-  serialSendInterrupt.begin(serialRefereshSend, 15000);
-  serialRecieveInterrupt.begin(serialRefereshRecieve, 1000);
-  serialRecieveInterrupt.priority(200);
+  speedInterrupt.begin(motorSpeedReferesh, 150000);
+  speedInterrupt.priority(140);
+  serialSendInterrupt.begin(serialRefereshSend, 150000);
+  serialSendInterrupt.priority(138);
+  serialRecieveInterrupt.begin(serialRefereshRecieve, 100000);
+  serialRecieveInterrupt.priority(139); // recieving needs to be lower priority then the sending or else the sending pauses when a value is recieved
+  motorModeInterrupt.begin(motorModeUpdate, 150000);
+  motorModeInterrupt.priority(140);
 
 }
 
@@ -54,14 +56,18 @@ void serialRefereshRecieve(){
 
   Beeri.updateRecieve(LRAs, Motors);
 
-
 }
 
 void serialRefereshSend(){
 
   Hand1.update();
 
-  //Beeri.updateSend(&Hand1);
+  Beeri.updateSend(&Hand1);
 
+}
+
+void motorModeUpdate(){
+
+  Motors[0].modeControl();
 
 }

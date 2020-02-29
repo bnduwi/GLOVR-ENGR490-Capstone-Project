@@ -19,8 +19,6 @@ void BeeriConnect::updateRecieve(LRA *inputLRAs, Motor *inputMotors){
 
 		bytesRead = Serial.readBytesUntil('$', buffer, 256);
 
-		//buffer[bytesRead + 1] = NULL;
-
 		char *strParse;
 
 		int valNum, type, location;
@@ -108,31 +106,33 @@ void BeeriConnect::updateRecieve(LRA *inputLRAs, Motor *inputMotors){
 
 					case 97:
 
-						inputMotors[0].setVoltage(valNum);
+						inputMotors[0].forceInput = valNum;
+
+						Serial.print(valNum);
 
 						break;
 
 					case 98:
 
-						inputMotors[1].setVoltage(valNum);
+						inputMotors[1].forceInput = valNum;
 					
 						break;
 
 					case 99:
 
-						inputMotors[2].setVoltage(valNum);
+						inputMotors[2].forceInput = valNum;
 
 						break;
 
 					case 100:
 
-						inputMotors[3].setVoltage(valNum);
+						inputMotors[3].forceInput = valNum;
 
 						break;
 
 					case 101:
 
-						inputMotors[4].setVoltage(valNum);
+						inputMotors[4].forceInput = valNum;
 
 						break;
 

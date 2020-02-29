@@ -24,7 +24,7 @@ public:
 
   volatile double lastPosition, nowPosition, time1, time2, speedValue;
   
-  int reachedPositionFlag = 0, positionIncrementFlag;
+  int reachedPositionFlag = 0, positionIncrementFlag, forceInput;
 
   Motor(int motorIN1_Input, int motorIN2_Input, float motorInputVoltage_Input, int motorGearRatio_Input, 
         int encoderPin1_Input, int encoderPin2_Input, double encoderPulsePerRotation_Input, int currentSensorAddress_Input);
@@ -45,7 +45,7 @@ public:
 
   void followControl();
 
-  void torqueControl(int torque);
+  //void torqueControl(int torque); need to work on this 
 
 };
 
