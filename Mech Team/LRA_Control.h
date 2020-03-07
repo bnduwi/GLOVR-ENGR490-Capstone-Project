@@ -6,16 +6,14 @@
 
 class LRA {
 
-public:
-
 Adafruit_DRV2605 *lraDriver;
 int multiplexerPort;
 
-//static Adafruit_DRV2605 lraDriver;
+void tcaSelect(int port);
+
+public:
 
 LRA(int multiplexerPort_Input);
-
-void tcaSelect(int port);
 
 void playWaveForm(int effect);
 

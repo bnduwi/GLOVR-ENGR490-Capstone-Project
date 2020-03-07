@@ -21,7 +21,6 @@ public:
 
 	void updateRecieve(LRA *inputLRAs, Motor *inputMotors);
 
-
 };
 
 #endif

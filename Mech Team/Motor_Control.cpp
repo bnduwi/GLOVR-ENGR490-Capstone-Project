@@ -22,8 +22,6 @@ Motor::Motor(int motorIN1_Input, int motorIN2_Input, float motorInputVoltage_Inp
 
 	encoderPulsePerRotation = encoderPulsePerRotation_Input;
 
-	positionIncrementFlag = 0;
-
 	pinMode(motorIN1, OUTPUT);
 
 	pinMode(motorIN2, OUTPUT);
@@ -42,41 +40,41 @@ Motor::Motor(int motorIN1_Input, int motorIN2_Input, float motorInputVoltage_Inp
 
   	followthresholdSpeed = 5;
 
-  	followthresholdCurrent = 75.0;
+  	followthresholdCurrent = 150;
 
-  	followFeedInValue = 4;
+  	followInputPWM = 0;
 
-  	followFeedOutValue = 0;
+  	forceInput = 0;
 
-  	followInputVoltage = 0.0;
+  	for (int i = 0; i < averageCount; i++) movingAverageSum = movingAverageSum + Motor::currentSensor->getCurrent_mA();
 
-  	forceInput = 4;
+  	movingAverage = movingAverageSum/averageCount;
 
 }
 
-void Motor::setVoltage(double voltage){ ///35 is the cutoff pwm value
+void Motor::setPWM(double PWM){ ///35 is the cutoff pwm value
 
-	if (voltage > 0){
+	if (PWM > 0){
 
-		double pulseWidth = (5.8073 * exp ( ( .5593 * abs(voltage)  )  )  );
+		//double pulseWidth = (5.8073 * exp ( ( .5593 * abs(voltage)  )  )  );
 
 		analogWrite(motorIN1, LOW);
 
-		analogWrite(motorIN2, abs(pulseWidth));
+		analogWrite(motorIN2, abs(PWM));
 
 	}
 
-	else if (voltage < 0){
+	else if (PWM < 0){
 
-		double pulseWidth = (5.8073 * exp ( ( .5593 * abs(voltage)  ) + (motorInputVoltage-6.5) )  );
+		//double pulseWidth = (5.8073 * exp ( ( .5593 * abs(voltage)  ) + (motorInputVoltage-6.5) )  );
 
 		analogWrite(motorIN2, LOW);
 
-		analogWrite(motorIN1, abs(pulseWidth));
+		analogWrite(motorIN1, abs(PWM));
 
 	}
 
-	else if (voltage == 0){
+	else if (PWM == 0){
 
 		analogWrite(motorIN2, LOW);
 
@@ -120,17 +118,27 @@ void Motor::speed(Motor *inputMotors, int motorNumber){
 
 double Motor::readCurrent(){ 
 
-	int iterations = 100;
+	// int iterations = 150;
 
-	double currentReadings = 0;
+	// double currentReadings = 0;
 
-	for (int i = 0; i < iterations; i++){
+	// for (int i = 0; i < iterations; i++){
 
-		currentReadings += Motor::currentSensor->getCurrent_mA();
+	// 	currentReadings += Motor::currentSensor->getCurrent_mA();
+
+	// }
+
+	for (int i = 0; i < 20; i++){
+
+		movingAverageSum = movingAverageSum - movingAverage;
+
+		movingAverageSum = movingAverageSum + Motor::currentSensor->getCurrent_mA();\
+
+		movingAverage = movingAverageSum / averageCount;
 
 	}
 
-	return currentReadings/iterations;
+	return movingAverage;
 
 
 }
@@ -150,36 +158,44 @@ void Motor::followControl(){ //causes the motor to retract or unroll cable based
 
 	int currentReading = Motor::readCurrent();
 
+	double calculatedThresholdCurrent = ((-0.0022*pow(abs(followInputPWM), 2)) + (0.7389*followInputPWM)+15);
 
-	if ( (speedValue < 5) && (currentReading >= -followthresholdCurrent) ){
+	// Serial.print(currentReading);
+	// Serial.print("\n");
 
-		followInputVoltage -= .3;
 
-		if (followInputVoltage <= -6.5) followInputVoltage = -6.5; 
+	if ( (speedValue < 5) && (currentReading >= -100) ){
 
-		// Serial.print("feeding In ");
-		// Serial.print(currentReading);
-		// Serial.print(" : ");
-		// Serial.print(speedValue);
-		// Serial.print("\n");
+		followInputPWM -= 5;
+
+		if (followInputPWM <= -100) followInputPWM = -100; 
+
+		//Serial.print("feeding In ");
+		Serial.print(followInputPWM);
+		Serial.print(",");
+		Serial.print(currentReading);
+		Serial.print(",");
+		Serial.print(calculatedThresholdCurrent);
+		Serial.print(",");
+		Serial.print(speedValue);
+		Serial.print("\n");
 
 	}
 
 	else {
 
-		// followInputVoltage = 0;
+		followInputPWM += 5;
+		if (followInputPWM >= 200) followInputPWM = 200; 
 
-		// Serial.print("feeding Out ");
-		// Serial.print(currentReading);
-		// Serial.print(" : ");
-		// Serial.print(speedValue);
-		// Serial.print("\n");
+		Serial.print("feeding Out ");
+		Serial.print(currentReading);
+		Serial.print(" : ");
+		Serial.print(speedValue);
+		Serial.print("\n");
 
 	}
 
-	Motor::setVoltage(followInputVoltage);
-
-
+	Motor::setPWM(followInputPWM); //Change this to set torque
 
 }
 
@@ -193,13 +209,15 @@ void Motor::modeControl(){
 
 	else{
 
-
-		Motor::setVoltage(forceInput);
-
+		followInputPWM = 0;
+		Motor::torqueControl();
 
 	}
-
-
 }
 
 
+void Motor::torqueControl(){
+
+	Motor::setPWM(forceInput);
+
+}

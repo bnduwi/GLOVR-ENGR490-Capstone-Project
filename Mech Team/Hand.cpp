@@ -13,11 +13,9 @@ Hand::Hand(int pins_Input[]){
 		fingers[i].potPin[s] = pins_Input[((i * 3) + s)];
 
 		}
-
 	}
 
 	fingers[4].potPin[3] = pins_Input[15];
-
 }
 
 void Hand::update(){
@@ -33,7 +31,6 @@ void Hand::update(){
 				fingers[i].potCurrent[s] = (fingers[i].potPrevious[s]/smoothingValue);
 
 				fingers[i].potPrevious[s] = 0;
-
 			}
 
 			else{
@@ -45,9 +42,7 @@ void Hand::update(){
 				fingers[i].potPrevious[s] = mapping + fingers[i].potPrevious[s];
 
 			}
-
 		}
-
 	}
 
 	if(smoothingCounter == smoothingValue){
@@ -71,6 +66,4 @@ void Hand::update(){
 		smoothingCounter++;	
 
 	}
-	
-
 }

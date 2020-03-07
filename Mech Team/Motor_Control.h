@@ -9,10 +9,9 @@ class Motor {
 
 private:
 
-  int motorIN1, motorIN2, motorGearRatio, encoderPin1, encoderPin2, followthresholdSpeed, followthresholdCurrent, followFeedInValue, 
-      followFeedOutValue;
+  int motorIN1, motorIN2, motorGearRatio, encoderPin1, encoderPin2, followthresholdSpeed, followthresholdCurrent;
 
-  double encoderPulsePerRotation, shaftRev, followInputVoltage;
+  double encoderPulsePerRotation, shaftRev, followInputPWM;
 
   float motorInputVoltage;
 
@@ -20,16 +19,22 @@ private:
 
   Adafruit_INA219 *currentSensor;
 
+  char averageCount = 100;
+
+  float movingAverage, movingAverageSum;
+
+
+
 public:
 
-  volatile double lastPosition, nowPosition, time1, time2, speedValue;
+  double lastPosition, nowPosition, time1, time2, speedValue;
   
-  int reachedPositionFlag = 0, positionIncrementFlag, forceInput;
+  int forceInput;
 
   Motor(int motorIN1_Input, int motorIN2_Input, float motorInputVoltage_Input, int motorGearRatio_Input, 
         int encoderPin1_Input, int encoderPin2_Input, double encoderPulsePerRotation_Input, int currentSensorAddress_Input);
 
-  void setVoltage(double voltage); 
+  void setPWM(double PWM); 
 
   void brake();
 
@@ -41,11 +46,11 @@ public:
 
   double readCurrent();
 
-  void modeControl();
+  void modeControl(); //Selects either followControl or torqueControl based on sim input
 
   void followControl();
 
-  //void torqueControl(int torque); need to work on this 
+  void torqueControl();  
 
 };
 

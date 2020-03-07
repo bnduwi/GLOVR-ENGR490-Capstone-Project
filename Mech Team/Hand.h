@@ -20,7 +20,7 @@ class Hand {
 
 public:
 
-	int smoothingCounter = 0, smoothingValue = 4;
+	int smoothingCounter = 0, smoothingValue = 150;
 
 	Finger fingers[5];
 
@@ -29,7 +29,6 @@ public:
 	void calibrate();
 
 	void update();
-
 
 };
 

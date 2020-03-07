@@ -1,10 +1,6 @@
 #include "LRA_Control.h"
 #include <Wire.h>
 
-
-
-
-
 LRA::LRA(int multiplexerPort_Input){
 
 	multiplexerPort = multiplexerPort_Input;
@@ -19,7 +15,6 @@ LRA::LRA(int multiplexerPort_Input){
 
 }
 
-
 void LRA::tcaSelect(int port){
 
 
@@ -30,7 +25,6 @@ void LRA::tcaSelect(int port){
 }
 
 void LRA::playWaveForm(int effect){
-
 
 	LRA::tcaSelect(multiplexerPort);
 
@@ -43,7 +37,6 @@ void LRA::playWaveForm(int effect){
 	LRA::lraDriver->setWaveform(0,effect);
 
 	LRA::lraDriver->go();
-
 
 }
 

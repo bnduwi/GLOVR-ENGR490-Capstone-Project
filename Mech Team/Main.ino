@@ -12,6 +12,7 @@ Hand Hand1 (potPinss);
 BeeriConnect Beeri;
 LRA LRAs[8] = {0,1,2,3,4,5,6,7};
 IntervalTimer speedInterrupt, serialSendInterrupt, serialRecieveInterrupt, motorModeInterrupt;
+int counter;
 
 void startInterrupt();
 
@@ -23,6 +24,8 @@ void serialRefereshRecieve();
 
 void motorModeUpdate();
 
+void potUpdate();
+
 
 void setup() {
 
@@ -30,44 +33,53 @@ void setup() {
 
 }
 
-void loop(){}
+void loop(){
+}
 
 
 void startInterrupt(){
 
-  speedInterrupt.begin(motorSpeedReferesh, 150000);
+  speedInterrupt.begin(motorSpeedReferesh, 1000);
   speedInterrupt.priority(140);
-  serialSendInterrupt.begin(serialRefereshSend, 150000);
-  serialSendInterrupt.priority(138);
-  serialRecieveInterrupt.begin(serialRefereshRecieve, 100000);
-  serialRecieveInterrupt.priority(139); // recieving needs to be lower priority then the sending or else the sending pauses when a value is recieved
-  motorModeInterrupt.begin(motorModeUpdate, 150000);
-  motorModeInterrupt.priority(140);
+  serialSendInterrupt.begin(serialRefereshSend, 600); ///update still gets paused on recieve, it we recieve too many lra
+  serialSendInterrupt.priority(125);
+  serialRecieveInterrupt.begin(serialRefereshRecieve, 100); 
+  serialRecieveInterrupt.priority(140); // recieving needs to be lower priority then the sending or else the sending pauses when a value is recieved
+  motorModeInterrupt.begin(motorModeUpdate, 190000);
+  motorModeInterrupt.priority(255);
 
 }
 
 void motorSpeedReferesh(){
 
-  Motors[0].speed(Motors, 0);
+  Motors[0].speed(Motors, 0); // 10 microseconds
 
 }
 
-void serialRefereshRecieve(){
+void serialRefereshRecieve(){ //0-1 micro when not revieving and 5400 when decoding a command
 
   Beeri.updateRecieve(LRAs, Motors);
 
 }
 
-void serialRefereshSend(){
+void serialRefereshSend(){ 
 
-  Hand1.update();
+  Hand1.update(); // 164 - 184 micros
 
-  Beeri.updateSend(&Hand1);
+  if(counter == 50){
+
+    //Beeri.updateSend(&Hand1);//takes around 50-80 microseconds 
+    counter = 0;
+
+  }
+
+  counter++;
+
 
 }
 
 void motorModeUpdate(){
 
-  Motors[0].modeControl();
+  Motors[0].modeControl(); //very long time 183352 microseconds, probably due to current sensor 
 
 }

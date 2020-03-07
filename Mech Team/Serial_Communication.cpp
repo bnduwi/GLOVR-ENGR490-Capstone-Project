@@ -3,17 +3,14 @@
 #include <string.h>
 #include <stdlib.h> 
 
-
-
-
 BeeriConnect::BeeriConnect(){
 
 	Serial.begin(19200);
+	Serial.setTimeout(1);
 
 }
 
 void BeeriConnect::updateRecieve(LRA *inputLRAs, Motor *inputMotors){
-
 
 	if(Serial.available()){
 
@@ -27,6 +24,11 @@ void BeeriConnect::updateRecieve(LRA *inputLRAs, Motor *inputMotors){
 
 		type = *strParse;
 
+		if ((type != 108) && (type != 102)){
+
+			return;
+		}
+
 		strParse = strtok (NULL, ",");
 
 		location = *strParse;
@@ -38,10 +40,8 @@ void BeeriConnect::updateRecieve(LRA *inputLRAs, Motor *inputMotors){
 		switch(type){
 
 			case 108:
-
-				
+			
 				switch(location){
-
 
 					case 97:
 
@@ -139,94 +139,41 @@ void BeeriConnect::updateRecieve(LRA *inputLRAs, Motor *inputMotors){
 					default: 
 
 						break;
-
 				}
-
 
 			default:
 
 				break;
-
 		}
 
 	}
 	
 }
 
-
 void BeeriConnect::updateSend(Hand *inputHand){
 
 	if (Serial.availableForWrite()){
 
-		Serial.print("a1,");
-		Serial.print(inputHand[0].fingers[0].potCurrent[0]);
-		Serial.print(";");
+		char sendString[340];
 
-		Serial.print("a2,");
-		Serial.print(inputHand[0].fingers[0].potCurrent[1]);
-		Serial.print(";");
+		sprintf(sendString, "a1,%d;a2,%d;a3,%d;b1,%d;b2,%d;b3,%d;c1,%d;c2,%d;c3,%d;d1,%d;d2,%d;d3,%d;e1,%d;e2,%d;e3,%d;e4,%d;",inputHand[0].fingers[0].potCurrent[0],
+																																	  inputHand[0].fingers[0].potCurrent[1],
+																																	  inputHand[0].fingers[0].potCurrent[2], 
+																																	  inputHand[0].fingers[1].potCurrent[0], 
+																																	  inputHand[0].fingers[1].potCurrent[1], 
+																																	  inputHand[0].fingers[1].potCurrent[2], 
+																																	  inputHand[0].fingers[2].potCurrent[0], 
+																																	  inputHand[0].fingers[2].potCurrent[1], 
+																																	  inputHand[0].fingers[2].potCurrent[2], 
+																																	  inputHand[0].fingers[3].potCurrent[0], 
+																																	  inputHand[0].fingers[3].potCurrent[1], 
+																																	  inputHand[0].fingers[3].potCurrent[2], 
+																																	  inputHand[0].fingers[4].potCurrent[0], 
+																																	  inputHand[0].fingers[4].potCurrent[1], 
+																																	  inputHand[0].fingers[4].potCurrent[2],
+																																	  inputHand[0].fingers[4].potCurrent[3]);
 
-		Serial.print("a3,");
-		Serial.print(inputHand[0].fingers[0].potCurrent[2]);
-		Serial.print(";");
-
-		Serial.print("b1,");
-		Serial.print(inputHand[0].fingers[1].potCurrent[0]);
-		Serial.print(";");
-
-		Serial.print("b2,");
-		Serial.print(inputHand[0].fingers[1].potCurrent[1]);
-		Serial.print(";");
-
-		Serial.print("b3,");
-		Serial.print(inputHand[0].fingers[1].potCurrent[2]);
-		Serial.print(";");
-
-		Serial.print("c1,");
-		Serial.print(inputHand[0].fingers[2].potCurrent[0]);
-		Serial.print(";");
-
-		Serial.print("c2,");
-		Serial.print(inputHand[0].fingers[2].potCurrent[1]);
-		Serial.print(";");
-
-		Serial.print("c3,");
-		Serial.print(inputHand[0].fingers[2].potCurrent[2]);
-		Serial.print(";");
-
-		Serial.print("d1,");
-		Serial.print(inputHand[0].fingers[3].potCurrent[0]);
-		Serial.print(";");
-
-		Serial.print("d2,");
-		Serial.print(inputHand[0].fingers[3].potCurrent[1]);
-		Serial.print(";");
-
-		Serial.print("d3,");
-		Serial.print(inputHand[0].fingers[3].potCurrent[2]);
-		Serial.print(";");
-
-		Serial.print("e1,");
-		Serial.print(inputHand[0].fingers[4].potCurrent[0]);
-		Serial.print(";");
-
-		Serial.print("e2,");
-		Serial.print(inputHand[0].fingers[4].potCurrent[1]);
-		Serial.print(";");
-
-		Serial.print("e3,");
-		Serial.print(inputHand[0].fingers[4].potCurrent[2]);
-		Serial.print(";");
-
-		Serial.print("e4,");
-		Serial.print(inputHand[0].fingers[4].potCurrent[3]);
-		Serial.print(";");
-
-
-		Serial.print("\n");
-
-
+		Serial.println(sendString);
 
 	}
-
 }
