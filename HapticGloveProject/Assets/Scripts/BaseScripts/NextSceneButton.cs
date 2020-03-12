@@ -5,14 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class NextSceneButton : MonoBehaviour
 {
-    void Start()
-    {
-
-    }
-    void Update()
-    {
-
-    }
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag.Equals("Hand"))

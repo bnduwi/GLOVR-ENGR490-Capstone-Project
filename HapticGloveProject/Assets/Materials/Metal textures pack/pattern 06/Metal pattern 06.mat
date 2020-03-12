@@ -31,5 +31,5 @@ Material:
     - _Cutoff: 0.12686567
     - _Shininess: 0.16732755
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.4056604, g: 0.04018334, b: 0.04018334, a: 1}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
