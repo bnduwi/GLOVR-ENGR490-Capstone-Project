@@ -34,9 +34,9 @@ void Hand::update(Motor *Motors){
 
 				fingers[i].potAverage[s] = 0;
 
-				Serial.print(fingers[0].potCurrent[0] - fingers[0].potPrevious[0]);
+				// Serial.print(fingers[0].potCurrent[0] - fingers[0].potPrevious[0]);
 
-				Serial.print("\n");
+				// Serial.print("\n");
 
 				if((fingers[i].potCurrent[s] - fingers[i].potPrevious[s]) > 3 ) Motors[i].modeFlag = 1;
 

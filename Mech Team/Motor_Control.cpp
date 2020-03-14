@@ -165,7 +165,7 @@ void Motor::followControl(){ //causes the motor to retract or unroll cable based
 
 		if (currentReading >= 40) modeFlag = 0;
  
-		Serial.print("feeding In ");
+		//Serial.print("feeding In ");
 		// Serial.print(followInputPWM);
 		// Serial.print(",");
 		// Serial.print(currentReading);
@@ -175,7 +175,7 @@ void Motor::followControl(){ //causes the motor to retract or unroll cable based
 		// Serial.print(speedValue);
 		// Serial.print("\n");
 		// Serial.print(modeFlag);
-		Serial.print("\n");
+		//Serial.print("\n");
 
 	}
 
@@ -183,11 +183,11 @@ void Motor::followControl(){ //causes the motor to retract or unroll cable based
 
 		followInputPWM = 30;
 
-		Serial.print("feeding Out ");
+		//Serial.print("feeding Out ");
 		// Serial.print(currentReading);
 		// Serial.print(" : ");
 		// Serial.print(speedValue);
-		Serial.print("\n");
+		//Serial.print("\n");
 		// Serial.print(modeFlag);
 		// Serial.print("\n");
 

@@ -46,7 +46,7 @@ void startInterrupt(){
   serialSendInterrupt.begin(serialRefereshSend, 600); ///update still gets paused on recieve, it we recieve too many lra
   serialSendInterrupt.priority(125);
   serialRecieveInterrupt.begin(serialRefereshRecieve, 100); 
-  serialRecieveInterrupt.priority(140); // recieving needs to be lower priority then the sending or else the sending pauses when a value is recieved
+  serialRecieveInterrupt.priority(125); // recieving needs to be lower priority then the sending or else the sending pauses when a value is recieved
   motorModeInterrupt.begin(motorModeUpdate, 190000);
   motorModeInterrupt.priority(255);
 
@@ -73,9 +73,9 @@ void serialRefereshSend(){
 
   Hand1.update(Motors); // 164 - 184 micros
 
-  if(counter == 50){
+  if(counter == 100){
 
-    //Beeri.updateSend(&Hand1);//takes around 50-80 microseconds 
+    Beeri.updateSend(&Hand1);//takes around 50-80 microseconds 
     counter = 0;
 
   }
