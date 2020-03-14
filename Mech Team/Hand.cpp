@@ -18,7 +18,7 @@ Hand::Hand(int pins_Input[]){
 	fingers[4].potPin[3] = pins_Input[15];
 }
 
-void Hand::update(){
+void Hand::update(Motor *Motors){
 
 
 	for (int i = 0; i < 5; i++){
@@ -28,18 +28,29 @@ void Hand::update(){
 
 			if (smoothingCounter == smoothingValue){
 
-				fingers[i].potCurrent[s] = (fingers[i].potPrevious[s]/smoothingValue);
+				fingers[i].potPrevious[s] = fingers[i].potCurrent[s];
 
-				fingers[i].potPrevious[s] = 0;
+				fingers[i].potCurrent[s] = (fingers[i].potAverage[s]/smoothingValue);
+
+				fingers[i].potAverage[s] = 0;
+
+				Serial.print(fingers[0].potCurrent[0] - fingers[0].potPrevious[0]);
+
+				Serial.print("\n");
+
+				if((fingers[i].potCurrent[s] - fingers[i].potPrevious[s]) > 3 ) Motors[i].modeFlag = 1;
+
+				if((fingers[i].potCurrent[s] - fingers[i].potPrevious[s]) < -3 ) Motors[i].modeFlag = 0;
+
+
+
 			}
 
 			else{
 
-				//int mapping = map(analogRead(fingers[i].potPin[s]), 0, 1023, 0, 180);
-
 				double mapping = (analogRead(fingers[i].potPin[s])/1023.0)*180.000000;
 
-				fingers[i].potPrevious[s] = mapping + fingers[i].potPrevious[s];
+				fingers[i].potAverage[s] = mapping + fingers[i].potAverage[s];
 
 			}
 		}
@@ -47,21 +58,25 @@ void Hand::update(){
 
 	if(smoothingCounter == smoothingValue){
 
-		fingers[4].potCurrent[3] = (fingers[4].potPrevious[3]/smoothingValue);
+		fingers[4].potPrevious[3] = fingers[4].potCurrent[3];
 
-		fingers[4].potPrevious[3] = 0;
+		fingers[4].potCurrent[3] = (fingers[4].potAverage[3]/smoothingValue);
+
+		fingers[4].potAverage[3] = 0;
 
 		smoothingCounter = 0;
+
+		if((fingers[4].potCurrent[3] - fingers[4].potPrevious[3]) > 3 ) Motors[4].modeFlag = 1;
+
+		if((fingers[4].potCurrent[3] - fingers[4].potPrevious[3]) < -3 ) Motors[4].modeFlag = 0;
 
 	}
 
 	else{
 
-		//int mappings = map(analogRead(fingers[4].potPin[3]), 0, 1023, 0, 180);
-
 		double mappings = (analogRead(fingers[4].potPin[3])/1023.0)*180.0;
 
-		fingers[4].potPrevious[3] += mappings;
+		fingers[4].potAverage[3] += mappings;
 
 		smoothingCounter++;	
 

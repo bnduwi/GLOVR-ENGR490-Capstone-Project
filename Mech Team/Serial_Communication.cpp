@@ -108,7 +108,7 @@ void BeeriConnect::updateRecieve(LRA *inputLRAs, Motor *inputMotors){
 
 						inputMotors[0].forceInput = valNum;
 
-						Serial.print(valNum);
+						//Serial.print(valNum);
 
 						break;
 

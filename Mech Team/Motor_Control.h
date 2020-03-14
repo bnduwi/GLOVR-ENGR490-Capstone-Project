@@ -13,23 +13,18 @@ private:
 
   double encoderPulsePerRotation, shaftRev, followInputPWM;
 
-  float motorInputVoltage;
+  float motorInputVoltage, movingAverage, movingAverageSum;
 
   Encoder *motorEncoder;
 
   Adafruit_INA219 *currentSensor;
 
-  char averageCount = 100;
-
-  float movingAverage, movingAverageSum;
-
-
-
+  int averageCount = 150;
 public:
 
   double lastPosition, nowPosition, time1, time2, speedValue;
   
-  int forceInput;
+  int forceInput, modeFlag = 0;
 
   Motor(int motorIN1_Input, int motorIN2_Input, float motorInputVoltage_Input, int motorGearRatio_Input, 
         int encoderPin1_Input, int encoderPin2_Input, double encoderPulsePerRotation_Input, int currentSensorAddress_Input);

@@ -1,6 +1,8 @@
 #ifndef HANDS
 #define HANDS
 
+#include "Motor_Control.h"
+
 struct Finger {
 
 	int potPin[4];
@@ -12,6 +14,8 @@ struct Finger {
 	int potCurrent[4];
 
 	int potPrevious[4];
+
+	int potAverage[4];
 
 };
 
@@ -28,7 +32,7 @@ public:
 							//which is placed at the end of the array;
 	void calibrate();
 
-	void update();
+	void update(Motor *Motors);
 
 };
 

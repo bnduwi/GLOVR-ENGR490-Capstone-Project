@@ -118,17 +118,8 @@ void Motor::speed(Motor *inputMotors, int motorNumber){
 
 double Motor::readCurrent(){ 
 
-	// int iterations = 150;
 
-	// double currentReadings = 0;
-
-	// for (int i = 0; i < iterations; i++){
-
-	// 	currentReadings += Motor::currentSensor->getCurrent_mA();
-
-	// }
-
-	for (int i = 0; i < 20; i++){
+	//for (int i = 0; i < 20; i++){
 
 		movingAverageSum = movingAverageSum - movingAverage;
 
@@ -136,7 +127,7 @@ double Motor::readCurrent(){
 
 		movingAverage = movingAverageSum / averageCount;
 
-	}
+	//}
 
 	return movingAverage;
 
@@ -160,38 +151,45 @@ void Motor::followControl(){ //causes the motor to retract or unroll cable based
 
 	double calculatedThresholdCurrent = ((-0.0022*pow(abs(followInputPWM), 2)) + (0.7389*followInputPWM)+15);
 
-	// Serial.print(currentReading);
-	// Serial.print("\n");
+	if ( modeFlag == 1 ){
 
+		if (followInputPWM > 0) followInputPWM = -20;
 
-	if ( (speedValue < 5) && (currentReading >= -100) ){
+		followInputPWM += -5;
 
-		followInputPWM -= 5;
+		if (followInputPWM <= -45){
 
-		if (followInputPWM <= -100) followInputPWM = -100; 
+			followInputPWM = -45; 
 
-		//Serial.print("feeding In ");
-		Serial.print(followInputPWM);
-		Serial.print(",");
-		Serial.print(currentReading);
-		Serial.print(",");
-		Serial.print(calculatedThresholdCurrent);
-		Serial.print(",");
-		Serial.print(speedValue);
+		} 
+
+		if (currentReading >= 40) modeFlag = 0;
+ 
+		Serial.print("feeding In ");
+		// Serial.print(followInputPWM);
+		// Serial.print(",");
+		// Serial.print(currentReading);
+		// Serial.print(",");
+		// Serial.print(calculatedThresholdCurrent);
+		// Serial.print(",");
+		// Serial.print(speedValue);
+		// Serial.print("\n");
+		// Serial.print(modeFlag);
 		Serial.print("\n");
 
 	}
 
 	else {
 
-		followInputPWM += 5;
-		if (followInputPWM >= 200) followInputPWM = 200; 
+		followInputPWM = 30;
 
 		Serial.print("feeding Out ");
-		Serial.print(currentReading);
-		Serial.print(" : ");
-		Serial.print(speedValue);
+		// Serial.print(currentReading);
+		// Serial.print(" : ");
+		// Serial.print(speedValue);
 		Serial.print("\n");
+		// Serial.print(modeFlag);
+		// Serial.print("\n");
 
 	}
 
