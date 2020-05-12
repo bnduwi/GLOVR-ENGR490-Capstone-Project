@@ -1,0 +1,16 @@
+Document current software
+
+Implement serial communication (lra's and torque down, potentiometer position up)
+
+Research follow control (make diagrams, decide on method, testing)
+
+Implement speed function into interrupt
+
+Implement researched position/following control into an interrupt 
+
+research torque control 
+
+implement rudementary torque control (on/off) (serial interrupt??)
+
+implement actual torque control
+
