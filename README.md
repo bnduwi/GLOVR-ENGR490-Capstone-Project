@@ -5,7 +5,9 @@ This is a multi-displinary capstone project involving [Concordia University](htt
 ### Project Description
 **Product Name:** GloVR
 
-**Product Logo:** *Under construction*
+**Product Logo:** 
+
+![Product Logo](https://github.com/bnduwi/ENGR490-Capstone-Project/blob/master/Software%20Team/Images/glover_bw_red_transparent.png?raw=true)
 
 This capstone project is a haptic feedback glove integrated with Unity to allow for VR applications that can, in the future, be potentially integrated to function with a robotic manipulator. The haptic feedback glove must be capable of both applying force feedback, which is accomplished using conventional DC motors, and tactile feedback, which is done using vibration motors. 
 
@@ -38,9 +40,9 @@ This component will be developed using [unity](https://unity.com/), which allows
 ### Running the code
 - Go through the HTC Vive setup
 - Open SteamVR and make sure both the Headset, Vive Tracker, and base stations are being tracked. The status screen should show this:
-<p align="center">
-  <img  src="https://raw.githubusercontent.com/bnduwi/ENGR490-Capstone-Project/project-clean-up/Software%20Team/Images/SteamStatusTracker_final.jpg?token=AHVOJ3L2EMRWDF7AHCGQPQ26LFXOS" alt="SteamVR Status Window">
-</p>
+
+  ![SteamVR Status Window](https://raw.githubusercontent.com/bnduwi/ENGR490-Capstone-Project/master/Software%20Team/Images/SteamStatusTracker_final.jpg?token=AHVOJ3NJKJOGW5TTO5XE56K63A45W)
+
 
 - Make sure the glove is connected (USB) to the computer Unity is running on using.
 - Clone the repository and open the project in Unity 
